@@ -4,7 +4,7 @@ Backend template based on NodeJS writed on Typescript
 
 ### What is this repository for? ###
 
-* This repo have the auth microservice
+* This repo have the inventory microservice
 
 ### Commands list ###
 
