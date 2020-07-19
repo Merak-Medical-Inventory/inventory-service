@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# testing
+/coverage
+.nyc_output/
+.nyc_coverage/
+
+#building
+build/
+dist/
+
+# misc
+**/.DS_Store
+config.dev.json
+*.key
+*.key.pub
+.secret
+.nyc*
+logs/
+.idea
