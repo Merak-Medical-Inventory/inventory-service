@@ -37,7 +37,7 @@ export const findCategoryCtrl = async (req: IRequest, res: Response, next: NextF
 
 export const findAllCategoriesCtrl = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-        const data = await findAllCategoriesSvc()
+        const data = await findAllCategoriesSvc();
         handleSuccess(200, 'Información de las Categorías', res, next, data);
     } catch (e) {
         console.error('ERROR: controller -> findAllCategoriesCtrl', e);

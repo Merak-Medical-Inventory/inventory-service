@@ -1,9 +1,9 @@
 {
   "type": "postgres",
-  "host": "172.17.0.1",
+  "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "postgres",
+  "password": "barcelona",
   "database": "merak-inventory",
   "synchronize": true,
   "logging": false,
