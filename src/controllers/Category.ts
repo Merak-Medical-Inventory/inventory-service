@@ -27,7 +27,7 @@ export const createCategoryCtrl = async (req : IRequest , res : Response , next:
 export const findCategoryCtrl = async (req: IRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
-        const data = await findCategorySvc(id);
+        const data = await findCategorySvc({id});
         handleSuccess(200, 'Información de la Categoría', res, next, data);
     } catch (e) {
         console.error('ERROR: controller -> findCategoryCtrl', e);

@@ -5,7 +5,7 @@ import {
     findAllPresentationsSvc,
     updatePresentationSvc,
     deletePresentationSvc
-} from '@services/Presentation';
+} from '@services/presentation';
 import { handleSuccess } from '@helpers/succesHandler';
 import { ErrorHandler } from '@helpers/ErrorHandler/';
 import logger from '@shared/Logger';
@@ -27,7 +27,7 @@ export const createPresentationCtrl = async (req : IRequest , res : Response , n
 export const findPresentationCtrl = async (req: IRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
-        const data = await findPresentationSvc(id);
+        const data = await findPresentationSvc({id});
         handleSuccess(200, 'Información de la Presentación', res, next, data);
     } catch (e) {
         console.error('ERROR: controller -> findPresentationCtrl', e);

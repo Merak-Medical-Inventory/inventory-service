@@ -12,17 +12,13 @@ export const createBrand = async (brand: any) => {
     }
 };
 
-export const findBrand = async (id: number) => {
+export const findBrand = async (criteria: any) => {
     try {
-        const brand = await getConnection()
-            .createQueryBuilder()
-            .select('Brand')
-            .from(Brand, 'Brand')
-            .where('Brand.id = :id', {id})
-            .getOne();
-        return brand;
+        const brandRepository = getManager().getRepository(Brand);
+        return await brandRepository.findOne({
+          where: criteria,
+        });
     } catch (error) {
-        console.log(id);
         throw new ErrorHandler(500, `${error.name} ${error.message}`);
     }
 };

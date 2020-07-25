@@ -5,7 +5,7 @@ import {
     findAllBrandsSvc,
     updateBrandSvc,
     deleteBrandSvc
-} from '@services/Brand';
+} from '@services/brand';
 import { handleSuccess } from '@helpers/succesHandler';
 import { ErrorHandler } from '@helpers/ErrorHandler/';
 import logger from '@shared/Logger';
@@ -27,7 +27,7 @@ export const createBrandCtrl = async (req : IRequest , res : Response , next: Ne
 export const findBrandCtrl = async (req: IRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
-        const data = await findBrandSvc(id);
+        const data = await findBrandSvc({id});
         handleSuccess(200, 'Información de la Marca', res, next, data);
     } catch (e) {
         console.error('ERROR: controller -> findBrandCtrl', e);

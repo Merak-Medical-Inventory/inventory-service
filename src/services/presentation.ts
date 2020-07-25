@@ -16,9 +16,9 @@ export const createPresentationSvc = async (Presentation: any) => {
     }
 };
 
-export const findPresentationSvc = async (id: any) => {
+export const findPresentationSvc = async (criteria: any) => {
     try {
-        return await findPresentation(id);
+        return await findPresentation(criteria);
     } catch (e) {
         console.error('TCL: findPresentationSvc -> e', e);
         throw e;

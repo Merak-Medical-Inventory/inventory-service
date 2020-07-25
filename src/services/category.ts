@@ -16,9 +16,9 @@ export const createCategorySvc = async (category: any) => {
     }
 };
 
-export const findCategorySvc = async (id: any) => {
+export const findCategorySvc = async (category: any) => {
     try {
-        return await findCategory(id);
+        return await findCategory(category);
     } catch (e) {
         console.error('TCL: findCategorySvc -> e', e);
         throw e;
