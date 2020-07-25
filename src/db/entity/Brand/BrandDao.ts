@@ -16,7 +16,7 @@ export const findBrand = async (criteria: any) => {
     try {
         const brandRepository = getManager().getRepository(Brand);
         return await brandRepository.findOne({
-          where: criteria,
+          where: criteria
         });
     } catch (error) {
         throw new ErrorHandler(500, `${error.name} ${error.message}`);

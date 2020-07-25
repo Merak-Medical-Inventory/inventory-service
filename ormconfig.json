@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "barcelona",
+  "password": "postgres",
   "database": "merak-inventory",
   "synchronize": true,
   "logging": false,

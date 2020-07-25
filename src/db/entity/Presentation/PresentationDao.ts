@@ -16,7 +16,7 @@ export const findPresentation = async (criteria: any) => {
   try {
     const presentationRepository = getManager().getRepository(Presentation);
     return await presentationRepository.findOne({
-      where: criteria,
+      where: criteria
     });
   } catch (error) {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);
