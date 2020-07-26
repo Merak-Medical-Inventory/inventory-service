@@ -12,7 +12,7 @@ export class Item {
     @Column({
         unique: true
     })
-    code: number;
+    code: string;
 
     @Column()
     name: string;
@@ -25,16 +25,13 @@ export class Item {
     })
     brand_code: string;
 
-    @Column()
-    serial_number: string;
-
     @ManyToOne(type => Brand, { onDelete: 'CASCADE' })
     brand: Brand;
 
     @ManyToOne(type => Category, { onDelete: 'CASCADE' })
     category: Category;
 
-    @ManyToOne(type => Brand, { onDelete: 'CASCADE' })
+    @ManyToOne(type => Presentation, { onDelete: 'CASCADE' })
     presentation: Presentation;
 }
 
