@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "strictNullChecks": false,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strictPropertyInitialization": false,
     "module": "commonjs",
     "outDir": "dist",
     "removeComments": true,
@@ -17,9 +17,6 @@
       "@services/*": [
         "src/services/*"
       ],
-      "@models/*": [
-        "src/db/models/*"
-      ],
       "@shared/*": [
         "src/shared/*"
       ],
@@ -28,6 +25,15 @@
       ],
       "@db/*": [
         "src/db/*"
+      ],
+      "@entity/*": [
+        "src/db/entity/*"
+      ],
+      "@seeds/*": [
+        "src/seeds/*"
+      ],
+      "@migration/*": [
+        "src/migration/*"
       ],
       "@helpers/*": [
         "src/helpers/*"
