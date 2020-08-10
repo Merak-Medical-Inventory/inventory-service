@@ -1,18 +1,18 @@
 {
   "type": "postgres",
-  "host": "172.17.0.1",
+  "host": "merak-inventory.czdwqkwpxkdi.us-east-1.rds.amazonaws.com",
   "port": 5432,
   "username": "postgres",
   "password": "postgres",
   "database": "merak-inventory",
   "synchronize": true,
   "logging": false,
-  "entities": ["dist/db/entity/**/*{.ts,.js}","src/db/entity/**/*{.ts,.js}"],
-  "migrations": ["dist/migration/**/*{.ts,.js}","src/migration/**/*{.ts,.js}"],
-  "subscribers": ["dist/subscriber/**/*{.ts,.js}","src/subscriber/**/*{.ts,.js}"],
+  "entities": ["dist/*{.ts,.js}"],
+  "migrations": ["dist/*{.ts,.js}"],
+  "subscribers": ["dist/*{.ts,.js}"],
   "cli": {
-    "entitiesDir": "src/db/entity/**/*{.ts,.js}",
-    "migrationsDir": "src/migration/**/*{.ts,.js}",
-    "subscribersDir": "src/subscriber/**/*{.ts,.js}"
+    "entitiesDir": ["dist/*{.ts,.js}"],
+    "migrationsDir": ["dist/*{.ts,.js}"],
+    "subscribersDir": ["dist/*{.ts,.js}"]
   }
 }

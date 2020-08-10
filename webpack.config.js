@@ -33,11 +33,14 @@ module.exports = {
     extensions: ['.ts', '.js'],
     alias: {
       "@services": path.resolve(__dirname, "src/services/"),
-      "@models": path.resolve(__dirname, "src/db/models/"),
       "@shared": path.resolve(__dirname, "src/shared/"),
       "@controllers": path.resolve(__dirname, "src/controllers/"),
       "@db": path.resolve(__dirname, "src/db/"),
-      "@helpers": path.resolve(__dirname, "src/helpers/")
+      "@entity": path.resolve(__dirname, "src/db/entity/"),
+      "@helpers": path.resolve(__dirname, "src/helpers/"),
+      "@migrations": path.resolve(__dirname, "src/migration/"),
+      "@seeds": path.resolve(__dirname, "src/seeds/"),
+      "@middlewares": path.resolve(__dirname, "src/middlewares/")
     } 
   },
   plugins: [

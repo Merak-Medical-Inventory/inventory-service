@@ -28,6 +28,7 @@
     "@hapi/joi": "^17.1.1",
     "@types/dotenv": "^8.2.0",
     "@types/mongoose": "^5.7.23",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
@@ -45,8 +46,8 @@
     "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",
     "ts-loader": "^7.0.5",
-    "typeorm": "^0.2.25",
     "tslib": "^2.0.0",
+    "typeorm": "^0.2.25",
     "winston": "^3.2.1"
   },
   "devDependencies": {

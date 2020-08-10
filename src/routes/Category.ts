@@ -8,7 +8,7 @@ import {
     deleteCategoryCtrl
 } from '@controllers/Category';
 import { createCategorySchema} from '@shared/joi/Category';
-import { sessionCheck } from '@middlewares/sessionCheck';
+import { sessionCheck } from '@middlewares/auth/auth';
 
 const router = Router();
 
