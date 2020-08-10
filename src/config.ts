@@ -13,7 +13,7 @@ const typeOrmConfig: PostgresConnectionOptions = {
     username: "postgres",
     password: "postgres",
     database: "merak-inventory",
-    synchronize: false,
+    synchronize: true,
     logging: false,
     entities: [
         Brand,
