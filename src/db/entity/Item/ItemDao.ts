@@ -6,7 +6,7 @@ export const findAllItems = async (criteria: any) => {
   try {
     const itemRepository = getManager().getRepository(Item);
     return await itemRepository.find({
-      relations: ["category","brand","presentation"],
+      relations: ["generalItem","category","brand","presentation"],
       where: criteria
   })
   } catch (error) {
@@ -18,7 +18,7 @@ export const findItem = async (criteria: any) => {
   try {
     const itemRepository = getManager().getRepository(Item);
     return await itemRepository.findOne({
-      relations: ["category","brand","presentation"],
+      relations: ["generalItem","category","brand","presentation"],
       where: criteria
   })
   } catch (error) {

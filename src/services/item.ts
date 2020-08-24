@@ -5,10 +5,13 @@ import { findBrand } from '@db/entity/Brand/BrandDao';
 import { createItem, findAllItems, findItem, updateItem, deleteItem } from '@db/entity/Item/ItemDao';
 import { findCategory } from '@db/entity/Category/CategoryDao';
 import { findPresentation } from '@db/entity/Presentation/PresentationDao';
+import {findGeneralItem} from "@entity/GeneralItem/GeneralItemDao";
 
 export const createItemSvc = async (item: any) => {
   try {
     console.log(item)
+    const generalItem= await findGeneralItem({id : item.generalItem});
+    if (!generalItem) throw new ErrorHandler(404, "Insumo General no encontrado");
     const brand = await findBrand({id : item.brand});
     if (!brand) throw new ErrorHandler(404, "Marca no encontrada");
     const category = await findCategory({id : item.category});

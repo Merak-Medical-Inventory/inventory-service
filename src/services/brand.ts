@@ -16,9 +16,9 @@ export const createBrandSvc = async (Brand: any) => {
     }
 };
 
-export const findBrandSvc = async (category: any) => {
+export const findBrandSvc = async (brand: any) => {
     try {
-        return await findBrand(category);
+        return await findBrand(brand);
     } catch (e) {
         console.error('TCL: findBrandSvc -> e', e);
         throw e;

@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 import Brand from '@db/entity/Brand/Brand';
 import Category from '@db/entity/Category/Category';
 import Presentation from '@db/entity/Presentation/Presentation';
+import GeneralItem from '@entity/GeneralItem/GeneralItem';
 
 @Entity()
 export class Item {
@@ -14,16 +15,13 @@ export class Item {
     })
     code: string;
 
-    @Column()
-    name: string;
-
-    @Column()
-    description: string;
-
     @Column({
         nullable: true
     })
     brand_code: string;
+
+    @ManyToOne(type => GeneralItem, { onDelete: 'CASCADE' })
+    generalItem: GeneralItem;
 
     @ManyToOne(type => Brand, { onDelete: 'CASCADE' })
     brand: Brand;
