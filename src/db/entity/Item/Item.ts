@@ -1,8 +1,9 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable} from "typeorm";
 import Brand from '@db/entity/Brand/Brand';
 import Category from '@db/entity/Category/Category';
 import Presentation from '@db/entity/Presentation/Presentation';
 import GeneralItem from '@entity/GeneralItem/GeneralItem';
+import Provider from '@entity/Provider/Provider';
 
 @Entity()
 export class Item {
@@ -31,6 +32,10 @@ export class Item {
 
     @ManyToOne(type => Presentation, { onDelete: 'CASCADE' })
     presentation: Presentation;
+
+    @ManyToMany(type => Provider, provider => provider.items, { onDelete: 'CASCADE', nullable: true })
+    @JoinTable()
+    providers: Provider[]
 }
 
 export default Item

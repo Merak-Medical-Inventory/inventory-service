@@ -40,7 +40,7 @@ export const updateItem = async (id: any, dataToUpdate: any) => {
   try {
     const itemRepository = getManager().getRepository(Item);
     const update = await itemRepository.update(id,{...dataToUpdate });
-    if(update.affected = 0) throw new ErrorHandler(404, "Item not found");
+    if(update.affected === 0) throw new ErrorHandler(404, "Item not found");
     return await itemRepository.findOne({id});
   } catch (error) {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);

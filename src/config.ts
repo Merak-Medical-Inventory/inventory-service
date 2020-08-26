@@ -5,6 +5,7 @@ import Category from '@db/entity/Category/Category';
 import Item from '@db/entity/Item/Item';
 import Presentation from '@db/entity/Presentation/Presentation';
 import GeneralItem from "@entity/GeneralItem/GeneralItem";
+import Provider from "@entity/Provider/Provider";
 
 
 const typeOrmConfig: PostgresConnectionOptions = {
@@ -22,6 +23,7 @@ const typeOrmConfig: PostgresConnectionOptions = {
         GeneralItem,
         Item,
         Presentation,
+        Provider
     ]
 };
 
