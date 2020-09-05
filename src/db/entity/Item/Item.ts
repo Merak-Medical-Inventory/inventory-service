@@ -34,7 +34,6 @@ export class Item {
     presentation: Presentation;
 
     @ManyToMany(type => Provider, provider => provider.items, { onDelete: 'CASCADE', nullable: true })
-    @JoinTable()
     providers: Provider[]
 }
 

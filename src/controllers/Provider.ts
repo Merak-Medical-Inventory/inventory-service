@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { handleSuccess } from "@helpers/succesHandler";
 import { ErrorHandler } from "@helpers/ErrorHandler/";
 import logger from '@shared/Logger';
-import { findAllProvidersSvc, findProviderSvc, createProviderSvc, updateProviderSvc, deleteProviderSvc } from '@services/Provider';
+import { findAllProvidersSvc, findProviderSvc, createProviderSvc, updateProviderSvc, deleteProviderSvc } from '@services/provider';
 
 interface IRequest extends Request {
     [key: string]: any;

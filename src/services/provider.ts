@@ -8,7 +8,7 @@ import Provider from "@entity/Provider/Provider";
 export const createProviderSvc = async (provider: any) => {
     try {
         const itemsSave = [];
-        for(const item of provider.items){
+        for await (const item of provider.items){
             const it = await findItem({id : item});
             itemsSave.push(it);
             if (!it) throw new ErrorHandler(404, "Item no encontrado");
@@ -28,7 +28,6 @@ export const findAllProvidersSvc = async (criteria: any) => {
         for (const provider of providers){
             const itemsGet = [];
             for(const item of provider.items) {
-                console.log('Hola');
                 const it = await findItem({id: item.id});
                 itemsGet.push(it);
                 console.log(it.id);

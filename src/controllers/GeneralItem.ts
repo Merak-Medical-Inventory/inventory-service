@@ -5,7 +5,7 @@ import {
     findAllGeneralItemsSvc,
     updateGeneralItemSvc,
     deleteGeneralItemSvc
-} from '@services/GeneralItem';
+} from '@services/generalItem';
 import { handleSuccess } from '@helpers/succesHandler';
 import { ErrorHandler } from '@helpers/ErrorHandler/';
 import logger from '@shared/Logger';
