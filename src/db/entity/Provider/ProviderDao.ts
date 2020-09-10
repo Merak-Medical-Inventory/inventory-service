@@ -42,7 +42,11 @@ export const updateProvider = async (id: any, dataToUpdate: any) => {
         const providerUpdate = await providerRepository.findOne(id);
         providerUpdate.name = dataToUpdate.name;
         providerUpdate.last_name = dataToUpdate.last_name;
+        providerUpdate.email = dataToUpdate.email;
         providerUpdate.company = dataToUpdate.company;
+        providerUpdate.country = dataToUpdate.country;
+        providerUpdate.city = dataToUpdate.city;
+        providerUpdate.address = dataToUpdate.address;
         providerUpdate.phone_number = dataToUpdate.phone_number;
         providerUpdate.items = dataToUpdate.items;
         await providerRepository.save(providerUpdate);
