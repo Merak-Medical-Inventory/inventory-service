@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany} from "typeorm";
 import Item from "@entity/Item/Item";
+import Order from '../Order/Order';
 
 @Entity()
 export class Provider {
@@ -42,6 +43,9 @@ export class Provider {
     @Column({
     })
     phone_number: string;
+
+    @OneToMany(type => Order, order => order.provider)
+    order: Order[];
 
     @ManyToMany(type => Item, item => item.providers, { cascade: true })
     @JoinTable()

@@ -1,9 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany} from "typeorm";
 import Brand from '@db/entity/Brand/Brand';
 import Category from '@db/entity/Category/Category';
 import Presentation from '@db/entity/Presentation/Presentation';
 import GeneralItem from '@entity/GeneralItem/GeneralItem';
 import Provider from '@entity/Provider/Provider';
+import OrderToItem from '../OrderToItem/OrderToItem';
 
 @Entity()
 export class Item {
@@ -35,6 +36,9 @@ export class Item {
 
     @ManyToMany(type => Provider, provider => provider.items, { onDelete: 'CASCADE', nullable: true })
     providers: Provider[]
+
+    @OneToMany(type => OrderToItem, orderToItem => orderToItem.item)
+    orderToItem: OrderToItem[];
 }
 
 export default Item
