@@ -6,6 +6,12 @@ import Item from '@db/entity/Item/Item';
 import Presentation from '@db/entity/Presentation/Presentation';
 import GeneralItem from "@entity/GeneralItem/GeneralItem";
 import Provider from "@entity/Provider/Provider";
+import User from '@db/entity/user/User';
+import Order from '@db/entity/Order/Order';
+import OrderToItem from '@db/entity/OrderToItem/OrderToItem';
+import privilege from '@db/entity/Privilege/Privilege';
+import Rol from '@db/entity/Rol/Rol';
+import Department from '@db/entity/Department/Department';
 
 
 const typeOrmConfig: PostgresConnectionOptions = {
@@ -23,7 +29,13 @@ const typeOrmConfig: PostgresConnectionOptions = {
         GeneralItem,
         Item,
         Presentation,
-        Provider
+        Provider,
+        User,
+        Order,
+        OrderToItem,
+        privilege,
+        Rol,
+        Department
     ]
 };
 

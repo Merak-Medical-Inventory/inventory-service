@@ -6,11 +6,11 @@ export const createProviderSchema = Joi.object().keys({
     company: Joi.string().required(),
     phone_number: Joi.string().required(),
     items : Joi.array().required(),
-    description : Joi.array().required(),
-    city : Joi.array().required(),
-    country : Joi.array().required(),
-    address : Joi.array().required(),
-    email : Joi.array().required()
+    description : Joi.string().required(),
+    city : Joi.string().required(),
+    country : Joi.string().required(),
+    address : Joi.string().required(),
+    email : Joi.string().required()
 });
 
 export const updateProviderSchema = Joi.object().keys({
@@ -19,10 +19,10 @@ export const updateProviderSchema = Joi.object().keys({
     company: Joi.string().required(),
     phone_number: Joi.string().required(),
     items : Joi.array().required(),
-    description : Joi.array().required(),
-    city : Joi.array().required(),
-    country : Joi.array().required(),
-    address : Joi.array().required(),
-    email : Joi.array().required()
+    description : Joi.string().required(),
+    city : Joi.string().required(),
+    country : Joi.string().required(),
+    address : Joi.string().required(),
+    email : Joi.string().required()
 });
 

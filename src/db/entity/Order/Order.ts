@@ -12,7 +12,7 @@ export class Order {
     status: string;
 
     @Column()
-    date: number;
+    date: Date;
 
     @ManyToOne(type => User)
     user: User;
