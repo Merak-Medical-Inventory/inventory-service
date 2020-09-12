@@ -8,3 +8,7 @@ export const createOrderSchema = Joi.object().keys({
         amount : Joi.number().required()
     }))
 })
+
+export const updateOrderSchema = Joi.object().keys({
+    status : Joi.string()
+})

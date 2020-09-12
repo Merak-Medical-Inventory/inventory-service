@@ -1,6 +1,6 @@
 import logger from "@shared/Logger";
 import Order from "@db/entity/Order/Order";
-import {findOrder, findAllOrders } from "@db/entity/Order/OrderDao";
+import {findOrder, findAllOrders, updateOrder } from "@db/entity/Order/OrderDao";
 import Provider from "@db/entity/Provider/Provider";
 import Item from "@db/entity/Item/Item";
 import OrderToItem from "@db/entity/OrderToItem/OrderToItem";
@@ -55,3 +55,12 @@ export const createOrderSvc = async (
     throw e;
   }
 };
+
+export const updateOrderSvc = async (id: any, dataToUpdate: any = {}) => {
+    try {
+      return await updateOrder(id, dataToUpdate);
+    } catch (e) {
+      logger.error("TCL: updateOrderSvc -> e", e);
+      throw e;
+    }
+  };

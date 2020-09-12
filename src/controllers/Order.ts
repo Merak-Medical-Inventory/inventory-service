@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderSvc, findOrderSvc, findAllOrdersSvc } from '@services/order';
+import { createOrderSvc, findOrderSvc, findAllOrdersSvc, updateOrderSvc } from '@services/order';
 import { ErrorHandler } from '@helpers/ErrorHandler';
+import logger from '@shared/Logger';
 
 export const getOrderByIdCtrl = async (req : Request , res : Response , next: NextFunction) => {
   const {id} = req.params;
@@ -37,3 +38,26 @@ export const createOrderCtrl = async (
     next(e);
   }
 };
+
+export const updateOrderCtrl = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const update = req.body;
+  const { id } = req.params;
+  try {
+    const data = await updateOrderSvc(id, update);
+    handleSuccess(
+      201,
+      "Pedido actualizado satisfactoriamente",
+      res,
+      next,
+      data
+    );
+  } catch (e) {
+    logger.error("ERROR: controller -> updateUserCtrl", e);
+    next(e);
+  }
+};
+
