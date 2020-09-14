@@ -6,6 +6,7 @@ import GeneralItemRouter from './GeneralItem';
 import ItemRouter from './Item';
 import ProviderRouter from './Provider';
 import OrderRouter from './Order';
+import LotRouter from './Lot';
 
 // Init router and path
 const router = Router();
@@ -18,5 +19,7 @@ router.use('/generalItem', GeneralItemRouter);
 router.use('/item', ItemRouter);
 router.use('/provider', ProviderRouter);
 router.use('/order',OrderRouter);
+router.use('/lot',LotRouter);
+
 // Export the base-router
 export default router;
