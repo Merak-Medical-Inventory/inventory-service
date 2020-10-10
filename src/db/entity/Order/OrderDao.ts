@@ -20,7 +20,7 @@ export const findAllOrders = async (criteria: any) => {
     const orderRepository = getManager().getRepository(Order);
     const orders = await orderRepository.find({
       relations: ["provider", "orderToItem", "orderToItem.item", 
-      "orderToItem.item.generalItem", "orderToItem.item.brand",
+      "orderToItem.item.generalItem", "orderToItem.item.category", "orderToItem.item.brand",
       "orderToItem.item.presentation"],
       where: criteria,
     });
