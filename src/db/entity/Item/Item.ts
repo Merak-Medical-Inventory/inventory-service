@@ -5,6 +5,7 @@ import Presentation from '@db/entity/Presentation/Presentation';
 import GeneralItem from '@entity/GeneralItem/GeneralItem';
 import Provider from '@entity/Provider/Provider';
 import OrderToItem from '../OrderToItem/OrderToItem';
+import Stock from '../Stock/Stock';
 
 @Entity()
 export class Item {
@@ -39,6 +40,9 @@ export class Item {
 
     @OneToMany(type => OrderToItem, orderToItem => orderToItem.item)
     orderToItem: OrderToItem[];
+
+    @ManyToMany(type => Stock, stock => stock.item)
+    stock: Stock[]
 }
 
 export default Item

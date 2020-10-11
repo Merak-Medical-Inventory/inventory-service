@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable
 import { User } from '../user/User';
 import Item from '../Item/Item';
 import Order from '../Order/Order';
+import LotToStock from '../LotToStock.ts/LotToStock';
 
 @Entity()
 export class Lot {
@@ -27,6 +28,9 @@ export class Lot {
 
     @ManyToOne(type => Order)
     order: Order;
+
+    @OneToMany(type => LotToStock, lotToStock => lotToStock.lot)
+    LotToStock: LotToStock[];
 }
 
 export default Order

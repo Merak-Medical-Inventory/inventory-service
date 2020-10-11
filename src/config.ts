@@ -13,6 +13,9 @@ import privilege from '@db/entity/Privilege/Privilege';
 import Rol from '@db/entity/Rol/Rol';
 import Department from '@db/entity/Department/Department';
 import { Lot } from '@db/entity/Lot/Lot';
+import Stock from '@db/entity/Stock/Stock';
+import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
+import Inventory from '@db/entity/Inventory/Inventory';
 
 
 const typeOrmConfig: PostgresConnectionOptions = {
@@ -37,7 +40,10 @@ const typeOrmConfig: PostgresConnectionOptions = {
         privilege,
         Rol,
         Department,
-        Lot
+        Lot,
+        Stock,
+        LotToStock,
+        Inventory
     ]
 };
 
