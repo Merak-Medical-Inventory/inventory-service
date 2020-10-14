@@ -39,7 +39,7 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
       if (!order) throw new ErrorHandler(404, "Order not found");
       for await (const item of lots.items) {
         const savedItem = await manager.findOne(Item, item.id);
-        const orderToItem = order.orderToItem.find( orderToItem => orderToItem.item === item.id);
+        const orderToItem = order.orderToItem.find( orderToItem => orderToItem.item.id == item.id);
         if (!savedItem || !orderToItem) continue;
         let lot = new Lot();
         lot.item = savedItem;
@@ -56,8 +56,10 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
         });
         if(!stock){
           stock = new Stock();
+          stock.inventory = inventory;
           stock.amount = lot.amount;
           stock.criticUnit = 1000;
+          stock.item = savedItem;
           await manager.save(stock)
         }else{
           stock.amount += lot.amount;

@@ -6,7 +6,7 @@ export const findOrder = async (criteria: any) => {
   try {
     const orderRepository = getManager().getRepository(Order);
     const order = await orderRepository.findOne({
-      relations: ["provider", "orderToItem"],
+      relations: ["provider", "orderToItem" , "orderToItem.item"],
       where: criteria,
     });
     return order;
