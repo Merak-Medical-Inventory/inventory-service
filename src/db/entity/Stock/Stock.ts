@@ -11,7 +11,7 @@ export class Stock {
     @Column()
     amount: number;
 
-    @Column()
+    @Column({nullable: true})
     criticUnit: number;
 
     @OneToMany(type => LotToStock, lotToStock => lotToStock.stock)
