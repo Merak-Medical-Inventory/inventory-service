@@ -58,7 +58,6 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
           stock = new Stock();
           stock.inventory = inventory;
           stock.amount = lot.amount;
-          stock.criticUnit = 1000;
           stock.item = savedItem;
           await manager.save(stock)
         }else{
