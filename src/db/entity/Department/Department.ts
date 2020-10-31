@@ -21,7 +21,7 @@ export class Department {
     @OneToMany(type => Inventory, Inventory => Inventory.deparment)
     inventory: Inventory[];
 
-    @OneToMany(type => OrderDepartment, orderDepartment => orderDepartment.deparment)
+    @OneToMany(type => OrderDepartment, orderDepartment => orderDepartment.department)
     orderDepartment: OrderDepartment[];
 }
 
