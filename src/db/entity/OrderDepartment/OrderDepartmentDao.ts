@@ -19,7 +19,7 @@ export const findAllOrderDepartments = async (criteria: any) => {
     try {
         const orderDepartmentRepository = getManager().getRepository(OrderDepartment);
         const orderDepartments = await orderDepartmentRepository.find({
-            relations: ["transmitter", "sender", "orderDepartmentToItem", "orderDepartmentToItem.item",
+            relations: ["department","transmitter", "sender", "orderDepartmentToItem", "orderDepartmentToItem.item",
                 "orderDepartmentToItem.item.generalItem", "orderDepartmentToItem.item.category", "orderDepartmentToItem.item.brand",
                 "orderDepartmentToItem.item.presentation"],
             where: criteria,

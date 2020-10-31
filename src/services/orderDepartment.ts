@@ -5,6 +5,18 @@ import Item from "@db/entity/Item/Item";
 import { getManager } from "typeorm";
 import OrderDepartmentToItem from "@db/entity/OrderDepartmentToItem/OrderDepartmentToItem";
 import User from "@entity/user/User";
+import Department from '@db/entity/Department/Department';
+
+export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department> => {
+    try {
+        return await getManager().findOne(Department,id,{
+            relations : ['orderDepartment']
+        })
+    } catch (e) {
+        logger.error("TCL: findOrderByDeparmentIdSvc -> e", e);
+        throw e;
+    }
+}
 
 export const findOrderDepartmentSvc = async (criteria: any) => {
     try {
@@ -27,12 +39,15 @@ export const findAllOrderDepartmentsSvc = async (criteria: any) => {
 export const createOrderDepartmentSvc = async (
     items: Array<any>,
     transmitterId: number
-) => {
+) : Promise<OrderDepartment> => {
     try {
         return await getManager().transaction(async (manager) => {
             const orderDepartment = new OrderDepartment();
-            const transmitter = new User();
+            const transmitter = await manager.findOne(User, transmitterId,{
+                relations: ["department"]
+            });
             transmitter.id = transmitterId;
+            orderDepartment.department = transmitter.department;
             orderDepartment.transmitter = transmitter;
             orderDepartment.status = "solicitado";
             orderDepartment.date = new Date();

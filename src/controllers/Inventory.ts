@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { findInventorySvc } from '@services/Inventory';
+import { findInventorySvc } from '@services/inventory';
 import { ErrorHandler } from '@helpers/ErrorHandler';
-import logger from '@shared/Logger';
 
 export const getInventoryByIdCtrl = async (req : Request , res : Response , next: NextFunction) => {
     const {id} = req.params;

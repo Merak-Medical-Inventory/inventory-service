@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import Inventory from '../Inventory/Inventory';
+import {  OrderDepartment } from "../OrderDepartment/OrderDepartment";
 @Entity()
 export class Department {
 
@@ -19,6 +20,9 @@ export class Department {
 
     @OneToMany(type => Inventory, Inventory => Inventory.deparment)
     inventory: Inventory[];
+
+    @OneToMany(type => OrderDepartment, orderDepartment => orderDepartment.deparment)
+    orderDepartment: OrderDepartment[];
 }
 
 export default Department

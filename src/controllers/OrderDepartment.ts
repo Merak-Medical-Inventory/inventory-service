@@ -1,9 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc } from '@services/OrderDepartment';
+import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc } from '@services/orderDepartment';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
+import Department from '@db/entity/Department/Department';
+
+export const getOrdersByDeparmentIdCtrl = async (req: Request , res : Response , next : NextFunction) => {
+    try {
+        const {id} = req.params;
+        const data : Department = await findOrderByDeparmentIdSvc(id);
+        handleSuccess(200,'Pedidos',res,next,data);   
+    } catch (e) {
+        next(e);
+    }
+}
 
 export const getOrderDepartmentByIdCtrl = async (req : Request , res : Response , next: NextFunction) => {
     const {id} = req.params;

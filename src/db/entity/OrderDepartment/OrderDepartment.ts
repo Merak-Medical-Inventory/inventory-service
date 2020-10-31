@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm';
 import { User } from '../user/User';
+import Department from "../Department/Department";
 import OrderDepartmentToItem from '../OrderDepartmentToItem/OrderDepartmentToItem';
 @Entity()
 export class OrderDepartment {
@@ -19,13 +20,16 @@ export class OrderDepartment {
     @Column({ nullable: true })
     response: string;
 
+    @ManyToOne(type => Department)
+    department: Department;
+
     @ManyToOne(type => User)
     transmitter: User;
 
     @ManyToOne(type => User,{ nullable: true })
     sender: User;
 
-    @OneToMany(type => OrderDepartmentToItem, orderDepartmentToItem => orderDepartmentToItem.OrderDepartment)
+    @OneToMany(type => OrderDepartmentToItem, orderDepartmentToItem => orderDepartmentToItem.orderDepartment)
     OrderDepartmentToItem: OrderDepartmentToItem[];
 }
 
