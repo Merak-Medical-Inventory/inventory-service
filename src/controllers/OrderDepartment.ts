@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc } from '@services/orderDepartment';
+import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc, acceptOrdenDeparmentSvc } from '@services/orderDepartment';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
 import Department from '@db/entity/Department/Department';
@@ -49,6 +49,21 @@ export const createOrderDepartmentCtrl = async (
         next(e);
     }
 };
+
+export const acceptOrdenDeparmentCtrl = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) =>{
+    try {
+        const orderId = parseInt(req.params.id)
+        const { items} = req.body;
+        const data = await acceptOrdenDeparmentSvc(orderId,items);
+        handleSuccess(200,'Pedido aceptado',res,next,data);
+    } catch (e) {
+        next(e)
+    }
+}
 
 export const updateOrderDepartmentCtrl = async (
     req: Request,

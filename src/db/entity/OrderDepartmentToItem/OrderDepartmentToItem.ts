@@ -13,6 +13,9 @@ export class OrderDepartmentToItem {
     @ManyToOne(type => Item)
     item!: Item;
 
+    @Column({default : false})
+    type : boolean;
+
     @ManyToOne(type => OrderDepartment)
     orderDepartment!: OrderDepartment;
 
