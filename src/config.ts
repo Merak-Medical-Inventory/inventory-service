@@ -16,6 +16,8 @@ import { Lot } from '@db/entity/Lot/Lot';
 import Stock from '@db/entity/Stock/Stock';
 import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
 import Inventory from '@db/entity/Inventory/Inventory';
+import OrderDepartment from "@entity/OrderDepartment/OrderDepartment";
+import OrderDepartmentToItem from "@entity/OrderDepartmentToItem/OrderDepartmentToItem";
 
 
 const typeOrmConfig: PostgresConnectionOptions = {
@@ -43,7 +45,9 @@ const typeOrmConfig: PostgresConnectionOptions = {
         Lot,
         Stock,
         LotToStock,
-        Inventory
+        Inventory,
+        OrderDepartment,
+        OrderDepartmentToItem
     ]
 };
 

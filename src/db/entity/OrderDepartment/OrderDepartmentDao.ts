@@ -6,7 +6,9 @@ export const findOrderDepartment = async (criteria: any) => {
     try {
         const orderDepartmentRepository = getManager().getRepository(OrderDepartment);
         const orderDepartment = await orderDepartmentRepository.findOne({
-            relations: ["transmitter", "sender", "orderDepartmentToItem" , "orderDepartmentToItem.item"],
+            relations: ["transmitter", "sender", "OrderDepartmentToItem", "OrderDepartmentToItem.item",
+                "OrderDepartmentToItem.item.generalItem", "OrderDepartmentToItem.item.category", "OrderDepartmentToItem.item.brand",
+                "OrderDepartmentToItem.item.presentation"],
             where: criteria,
         });
         return orderDepartment;
@@ -19,9 +21,9 @@ export const findAllOrderDepartments = async (criteria: any) => {
     try {
         const orderDepartmentRepository = getManager().getRepository(OrderDepartment);
         const orderDepartments = await orderDepartmentRepository.find({
-            relations: ["department","transmitter", "sender", "orderDepartmentToItem", "orderDepartmentToItem.item",
-                "orderDepartmentToItem.item.generalItem", "orderDepartmentToItem.item.category", "orderDepartmentToItem.item.brand",
-                "orderDepartmentToItem.item.presentation"],
+            relations: ["department","transmitter", "sender", "OrderDepartmentToItem", "OrderDepartmentToItem.item",
+                "OrderDepartmentToItem.item.generalItem", "OrderDepartmentToItem.item.category", "OrderDepartmentToItem.item.brand",
+                "OrderDepartmentToItem.item.presentation"],
             where: criteria,
         });
         return orderDepartments;
