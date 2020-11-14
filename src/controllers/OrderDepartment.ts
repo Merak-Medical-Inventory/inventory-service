@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc, acceptOrdenDeparmentSvc } from '@services/orderDepartment';
+import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc, acceptOrdenDeparmentSvc, getActualStockForOrderSvc } from '@services/orderDepartment';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
 import Department from '@db/entity/Department/Department';
@@ -11,6 +11,16 @@ export const getOrdersByDeparmentIdCtrl = async (req: Request , res : Response ,
         const {id} = req.params;
         const data : Department = await findOrderByDeparmentIdSvc(id);
         handleSuccess(200,'Pedidos',res,next,data);   
+    } catch (e) {
+        next(e);
+    }
+}
+
+export const getActualStockForOrderByCtrl = async (req: Request , res : Response , next : NextFunction) => {
+    try {
+        const {id} = req.params;
+        const data = await getActualStockForOrderSvc(id);
+        handleSuccess(200,'Items',res,next,data);   
     } catch (e) {
         next(e);
     }

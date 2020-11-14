@@ -8,6 +8,7 @@ import User from '@entity/user/User';
 import Department from '@db/entity/Department/Department';
 import Stock from '@db/entity/Stock/Stock';
 import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
+import Inventory from '@db/entity/Inventory/Inventory';
 
 export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department> => {
     try {
@@ -17,6 +18,36 @@ export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department>
                 'orderDepartment.OrderDepartmentToItem.item.category', 'orderDepartment.OrderDepartmentToItem.item.brand',
                 'orderDepartment.OrderDepartmentToItem.item.presentation']
         })
+    } catch (e) {
+        logger.error('TCL: findOrderByDeparmentIdSvc -> e', e);
+        throw e;
+    }
+}
+
+export const getActualStockForOrderSvc = async ( id : any) : Promise<Array<any>>=> {
+    try {
+        const manager = getManager();
+        const order = await manager.findOne(OrderDepartment,id,{
+            relations : ['OrderDepartmentToItem','OrderDepartmentToItem.item']
+        })
+        const itemList = [];
+        for (const orderDepartmentToItem of order.OrderDepartmentToItem){
+            const principalStock = await manager.find(Stock,{
+                where : {
+                    inventory : 1,
+                    item : orderDepartmentToItem.item
+                }
+            })
+            itemList.push({
+                item : {
+                    ...orderDepartmentToItem.item
+                },
+                orderAmount : orderDepartmentToItem.amount,
+                actualAmount : principalStock.length != 0 ? principalStock[0].amount : 0,
+                canSupply : principalStock.length != 0 ? principalStock[0].amount > orderDepartmentToItem.amount ? true : false : false
+            })
+        }
+        return itemList;
     } catch (e) {
         logger.error('TCL: findOrderByDeparmentIdSvc -> e', e);
         throw e;
@@ -89,6 +120,7 @@ export const acceptOrdenDeparmentSvc = async (
                 const primaryStock = await manager.find(Stock,{
                     relations : ["LotToStock", "LotToStock.lot"],
                     where : {
+                        inventory : 1,
                         item : item.id
                     }
                 });
