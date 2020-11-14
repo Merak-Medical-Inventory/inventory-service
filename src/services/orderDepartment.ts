@@ -165,11 +165,8 @@ export const acceptOrdenDeparmentSvc = async (
                     deparmentStock.LotToStock.push(lotToStock);
                 }
                 deparmentStock.amount = item.amount;
-                const deparmentOrderToItem = new OrderDepartmentToItem();
-                deparmentOrderToItem.amount = item.amount;
-                deparmentOrderToItem.item = deparmentStock.item;
-                deparmentOrderToItem.orderDepartment = order;
-                deparmentOrderToItem.type = true;
+                const deparmentOrderToItem = order.OrderDepartmentToItem.find(orderDepartmentToItem => orderDepartmentToItem.item.id === item.id)
+                deparmentOrderToItem.acceptedAmount = item.amount;
                 await manager.save(deparmentOrderToItem);
                 deparmentStockList.push(deparmentStock);
             }

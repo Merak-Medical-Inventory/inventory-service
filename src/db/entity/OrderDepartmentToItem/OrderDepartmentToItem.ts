@@ -13,8 +13,8 @@ export class OrderDepartmentToItem {
     @ManyToOne(type => Item)
     item!: Item;
 
-    @Column({default : false})
-    type : boolean;
+    @Column({nullable : true})
+    acceptedAmount : number;
 
     @ManyToOne(type => OrderDepartment)
     orderDepartment!: OrderDepartment;
