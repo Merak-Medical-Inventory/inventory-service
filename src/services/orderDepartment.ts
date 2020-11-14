@@ -31,7 +31,7 @@ export const getActualStockForOrderSvc = async ( id : any) : Promise<Array<any>>
             relations : ['OrderDepartmentToItem','OrderDepartmentToItem.item']
         })
         const itemList = [];
-        for (const orderDepartmentToItem of order.OrderDepartmentToItem){
+        for await (const orderDepartmentToItem of order.OrderDepartmentToItem){
             const principalStock = await manager.find(Stock,{
                 where : {
                     inventory : 1,
