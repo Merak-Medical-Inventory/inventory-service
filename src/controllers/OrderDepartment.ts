@@ -67,8 +67,10 @@ export const acceptOrdenDeparmentCtrl = async (
 ) =>{
     try {
         const orderId = parseInt(req.params.id)
-        const { items} = req.body;
-        const data = await acceptOrdenDeparmentSvc(orderId,items);
+        const items = req.body.items;
+        const message = req.body.message;
+        const sender = req.body.sender;
+        const data = await acceptOrdenDeparmentSvc(orderId,items,message,sender);
         handleSuccess(200,'Pedido aceptado',res,next,data);
     } catch (e) {
         next(e)

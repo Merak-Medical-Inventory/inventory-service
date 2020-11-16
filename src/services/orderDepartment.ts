@@ -28,7 +28,9 @@ export const getActualStockForOrderSvc = async ( id : any) : Promise<Array<any>>
     try {
         const manager = getManager();
         const order = await manager.findOne(OrderDepartment,id,{
-            relations : ['OrderDepartmentToItem','OrderDepartmentToItem.item']
+            relations : ['OrderDepartmentToItem','OrderDepartmentToItem.item', 'OrderDepartmentToItem.item.generalItem',
+                'OrderDepartmentToItem.item.category', 'OrderDepartmentToItem.item.brand',
+                'OrderDepartmentToItem.item.presentation']
         })
         const itemList = [];
         for await (const orderDepartmentToItem of order.OrderDepartmentToItem){
@@ -107,13 +109,17 @@ export const createOrderDepartmentSvc = async (
 
 export const acceptOrdenDeparmentSvc = async (
     orderId : number,
-    items: Array<any>
+    items: Array<any>,
+    message: string,
+    sender: number
 ) : Promise<OrderDepartment> => {
     try {
         return await getManager().transaction(async (manager) => {
             const order = await manager.findOne(OrderDepartment,orderId,{
-                relations : ["OrderDepartmentToItem","OrderDepartmentToItem.item", "deparment" , "deparment.inventory"]
+                relations : ["OrderDepartmentToItem","OrderDepartmentToItem.item", "department",
+                    "department.inventory"]
             });
+            console.log(order);
             //
             const deparmentStockList : Array<Stock>= [] 
             for await (const item of items){
@@ -171,7 +177,10 @@ export const acceptOrdenDeparmentSvc = async (
                 deparmentStockList.push(deparmentStock);
             }
             await manager.save(deparmentStockList)
-            order.status = 'accepted';
+            order.status = 'aprobado';
+            order.sender.id = sender;
+            order.response = message;
+            order.dateResponse = new Date();
             return await manager.save(order);
         });
     } catch (e) {
