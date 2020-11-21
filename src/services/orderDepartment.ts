@@ -9,6 +9,7 @@ import Department from '@db/entity/Department/Department';
 import Stock from '@db/entity/Stock/Stock';
 import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
 import Inventory from '@db/entity/Inventory/Inventory';
+import { userInfo } from 'os';
 
 export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department> => {
     try {
@@ -111,7 +112,7 @@ export const acceptOrdenDeparmentSvc = async (
     orderId : number,
     items: Array<any>,
     message: string,
-    sender: number
+    senderId: number
 ) : Promise<OrderDepartment> => {
     try {
         return await getManager().transaction(async (manager) => {
@@ -119,7 +120,6 @@ export const acceptOrdenDeparmentSvc = async (
                 relations : ["OrderDepartmentToItem","OrderDepartmentToItem.item", "department",
                     "department.inventory"]
             });
-            console.log(order);
             //
             const deparmentStockList : Array<Stock>= [] 
             for await (const item of items){
@@ -132,6 +132,7 @@ export const acceptOrdenDeparmentSvc = async (
                 });
                 if(primaryStock.length === 0) continue;
                 const deparmentStockResult = await manager.find(Stock,{
+                    relations : ["LotToStock", "LotToStock.lot"],
                     where : {
                         inventory : order.department.inventory[0].id,
                         item : item.id
@@ -150,15 +151,19 @@ export const acceptOrdenDeparmentSvc = async (
                 }
                 const lotToStockList = primaryStock[0].LotToStock.sort((a , b)=> a.lot.entryDate.valueOf() - b.lot.entryDate.valueOf());
                 let amount = item.amount;
+                const newLotToStockList : LotToStock[] = [];
                 for await (const primaryLotToStock of lotToStockList){
                     if(amount === 0) break;
-                    const lotToStock = new LotToStock();
+                    if(primaryLotToStock.amount === 0) continue;
+                    let lotToStock = deparmentStock.LotToStock ? deparmentStock.LotToStock.find(lotToStock => lotToStock.lot.id ===  primaryLotToStock.lot.id) : null;
+                    let newlotToStock = newLotToStockList.find(lotToStock => lotToStock.lot.id ===  primaryLotToStock.lot.id);
+                    lotToStock = newlotToStock ? lotToStock : lotToStock ? lotToStock : new LotToStock();
                     if(primaryLotToStock.amount >= amount ){
+                        primaryLotToStock.amount -= amount;
                         lotToStock.amount = amount;
                         lotToStock.stock = deparmentStock;
                         lotToStock.lot = primaryLotToStock.lot;
                         amount = 0;
-                        primaryLotToStock.amount -= amount;
                     }else{
                         lotToStock.amount = primaryLotToStock.amount;
                         lotToStock.stock = deparmentStock;
@@ -168,17 +173,22 @@ export const acceptOrdenDeparmentSvc = async (
                     }
                     await manager.save(primaryLotToStock);
                     if(!lotToStock.amount) continue;
-                    deparmentStock.LotToStock.push(lotToStock);
+                    newLotToStockList.push(lotToStock);
                 }
-                deparmentStock.amount = item.amount;
+                const primaryStockToSave = primaryStock[0];
+                primaryStockToSave.amount -= item.amount;
+                await manager.save(primaryStockToSave);
+                deparmentStock.amount += item.amount;
                 const deparmentOrderToItem = order.OrderDepartmentToItem.find(orderDepartmentToItem => orderDepartmentToItem.item.id === item.id)
                 deparmentOrderToItem.acceptedAmount = item.amount;
                 await manager.save(deparmentOrderToItem);
-                deparmentStockList.push(deparmentStock);
+                await manager.save(deparmentStock);
+                await manager.save(newLotToStockList);
             }
-            await manager.save(deparmentStockList)
             order.status = 'aprobado';
-            order.sender.id = sender;
+            const sender = new User();
+            sender.id = senderId;
+            order.sender = sender;
             order.response = message;
             order.dateResponse = new Date();
             return await manager.save(order);

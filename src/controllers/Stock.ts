@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {updateStockSvc} from "@services/Stock";
+import {updateStockSvc} from "@services/stock";
 import {handleSuccess} from "@helpers/succesHandler";
 import logger from "@shared/Logger";
 
