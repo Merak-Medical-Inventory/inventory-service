@@ -121,7 +121,6 @@ export const acceptOrdenDeparmentSvc = async (
                     "department.inventory"]
             });
             //
-            const deparmentStockList : Array<Stock>= [] 
             for await (const item of items){
                 const primaryStock = await manager.find(Stock,{
                     relations : ["LotToStock", "LotToStock.lot"],
