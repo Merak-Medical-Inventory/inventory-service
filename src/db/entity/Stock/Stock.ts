@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne} from 'typeorm';
-import LotToStock from '../LotToStock.ts/LotToStock';
+import LotToStock from '../LotToStock/LotToStock';
 import Inventory from '../Inventory/Inventory';
 import Item from '../Item/Item';
 @Entity()

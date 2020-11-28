@@ -2,7 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable
 import { User } from '../user/User';
 import Item from '../Item/Item';
 import Order from '../Order/Order';
-import LotToStock from '../LotToStock.ts/LotToStock';
+import LotToStock from '../LotToStock/LotToStock';
 
 @Entity()
 export class Lot {

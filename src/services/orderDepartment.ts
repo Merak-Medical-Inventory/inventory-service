@@ -7,7 +7,7 @@ import OrderDepartmentToItem from '@db/entity/OrderDepartmentToItem/OrderDepartm
 import User from '@entity/user/User';
 import Department from '@db/entity/Department/Department';
 import Stock from '@db/entity/Stock/Stock';
-import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
+import LotToStock from '@db/entity/LotToStock/LotToStock';
 import Inventory from '@db/entity/Inventory/Inventory';
 import { userInfo } from 'os';
 

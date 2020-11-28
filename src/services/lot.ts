@@ -9,7 +9,7 @@ import { Lot } from '@db/entity/Lot/Lot';
 import { findInventorySvc } from './inventory';
 import { principalInventoryId } from '@shared/consts';
 import Stock from '@db/entity/Stock/Stock';
-import LotToStock from '@db/entity/LotToStock.ts/LotToStock';
+import LotToStock from '@db/entity/LotToStock/LotToStock';
 
 export const findLotSvc = async (criteria: any) => {
   try {
