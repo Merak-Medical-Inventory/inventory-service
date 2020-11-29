@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {updateStockSvc} from "@services/stock";
+import {updateStockSvc, outputItemStockSvc} from "@services/stock";
 import {handleSuccess} from "@helpers/succesHandler";
 import logger from "@shared/Logger";
 
@@ -25,6 +25,28 @@ export const updateStockCtrl = async (
         );
     } catch (e) {
         logger.error("ERROR: controller -> updateStockCtrl", e);
+        next(e);
+    }
+};
+
+export const outputItemStockCtrl = async (
+    req: IRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const amountOutput = req.body.amountOutput;
+        const id = parseInt(req.params.id);
+        const data = await outputItemStockSvc(id, amountOutput);
+        handleSuccess(
+            201,
+            "Salida Registrada en Stock",
+            res,
+            next,
+            data
+        );
+    } catch (e) {
+        logger.error("ERROR: controller -> outputItemStockCtrl", e);
         next(e);
     }
 };
