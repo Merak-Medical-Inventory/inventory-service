@@ -15,3 +15,13 @@ export const findInventory = async (criteria: any) => {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);
   }
 };
+
+export const findAllInventories = async () => {
+  try {
+    const inventoryRepository = getManager().getRepository(Inventory);
+    const inventories = await inventoryRepository.find();
+    return inventories;
+  } catch (error) {
+    throw new ErrorHandler(500, `${error.name} ${error.message}`);
+  }
+};
