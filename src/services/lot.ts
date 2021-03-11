@@ -35,7 +35,7 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
       const order = await findOrderSvc({ id: lots.orderId });
       const entryDate = new Date();
       const inventory = await findInventorySvc({ id : principalInventoryId})
-      if(!inventory) throw new ErrorHandler(404, "Principal Iventory not found")
+      if(!inventory) throw new ErrorHandler(404, "Principal Inventory not found")
       if (!order) throw new ErrorHandler(404, "Order not found");
       for await (const item of lots.items) {
         const savedItem = await manager.findOne(Item, item.id);
