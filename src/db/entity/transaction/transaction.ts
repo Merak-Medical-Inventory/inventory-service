@@ -9,6 +9,9 @@ export class Transaction {
     id: number;
 
     @Column()
+    blockchainTx: string;
+
+    @Column()
     amount: number;
     
     @Column(type => User)
