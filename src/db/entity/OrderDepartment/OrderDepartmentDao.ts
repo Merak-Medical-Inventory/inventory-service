@@ -51,3 +51,17 @@ export const updateOrderDepartment = async (id: any, dataToUpdate: any) => {
         throw new ErrorHandler(500, `${error.name} ${error.message}`);
     }
 };
+
+export const findDepartmentsOrder = async (filter: any) => {
+    try {
+        const orderDepartmentRepository = getManager().getRepository(OrderDepartment);
+        const result = orderDepartmentRepository.query('SELECT count(o.*) as orders, d.* ' +
+                                                    'FROM order_department o, department d ' +
+                                                    'WHERE "departmentId" = d.id ' +
+                                                    'GROUP BY d.id ' +
+                                                    'ORDER BY orders ' + filter.order +';');
+        return result;
+    } catch (error) {
+        throw new ErrorHandler(500, `${error.name} ${error.message}`);
+    }
+};

@@ -1,7 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderDepartmentSvc, findOrderDepartmentSvc, findAllOrderDepartmentsSvc, updateOrderDepartmentSvc, findOrderByDeparmentIdSvc, acceptOrdenDeparmentSvc, getActualStockForOrderSvc } from '@services/orderDepartment';
+import {
+    createOrderDepartmentSvc,
+    findOrderDepartmentSvc,
+    findAllOrderDepartmentsSvc,
+    updateOrderDepartmentSvc,
+    findOrderByDeparmentIdSvc,
+    acceptOrdenDeparmentSvc,
+    getActualStockForOrderSvc,
+    findDepartmentsOrderSvc
+} from '@services/orderDepartment';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
 import Department from '@db/entity/Department/Department';
@@ -95,6 +104,27 @@ export const updateOrderDepartmentCtrl = async (
         );
     } catch (e) {
         logger.error("ERROR: controller -> updateUserCtrl", e);
+        next(e);
+    }
+};
+
+export const findDepartmentsOrderCtrl = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const filter = req.body;
+    try {
+        const data = await findDepartmentsOrderSvc(filter);
+        handleSuccess(
+            201,
+            "Departamentos",
+            res,
+            next,
+            data
+        );
+    } catch (e) {
+        logger.error("ERROR: controller -> findDepartmentsOrderCtrl", e);
         next(e);
     }
 };

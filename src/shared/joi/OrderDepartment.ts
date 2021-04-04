@@ -23,3 +23,7 @@ export const updateOrderDepartmentSchema = Joi.object().keys({
     status : Joi.string().required(),
     dateResponse : Joi.date().required()
 });
+
+export const findDepartmentsOrderSchema = Joi.object().keys({
+    order: Joi.string().required()
+});

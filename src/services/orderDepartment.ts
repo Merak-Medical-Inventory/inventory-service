@@ -1,6 +1,11 @@
 import logger from '@shared/Logger';
 import OrderDepartment from '@db/entity/OrderDepartment/OrderDepartment';
-import {findOrderDepartment, findAllOrderDepartments, updateOrderDepartment } from '@db/entity/OrderDepartment/OrderDepartmentDao';
+import {
+    findOrderDepartment,
+    findAllOrderDepartments,
+    updateOrderDepartment,
+    findDepartmentsOrder
+} from '@db/entity/OrderDepartment/OrderDepartmentDao';
 import Item from '@db/entity/Item/Item';
 import { getManager } from 'typeorm';
 import OrderDepartmentToItem from '@db/entity/OrderDepartmentToItem/OrderDepartmentToItem';
@@ -203,6 +208,15 @@ export const updateOrderDepartmentSvc = async (id: any, dataToUpdate: any = {}) 
         return await updateOrderDepartment(id, dataToUpdate);
     } catch (e) {
         logger.error('TCL: updateOrderDepartmentSvc -> e', e);
+        throw e;
+    }
+};
+
+export const findDepartmentsOrderSvc = async (filter: any) => {
+    try {
+        return await findDepartmentsOrder(filter);
+    } catch (e) {
+        logger.error('TCL: findDepartmentsOrderSvc -> e', e);
         throw e;
     }
 };
