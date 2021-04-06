@@ -12,9 +12,9 @@ import OrderDepartmentToItem from '@db/entity/OrderDepartmentToItem/OrderDepartm
 import User from '@entity/user/User';
 import Department from '@db/entity/Department/Department';
 import Stock from '@db/entity/Stock/Stock';
+import Transaction from '@db/entity/transaction/transaction';
 import LotToStock from '@db/entity/LotToStock/LotToStock';
-import Inventory from '@db/entity/Inventory/Inventory';
-import { userInfo } from 'os';
+import { createTransaction } from '@helpers/transaction';
 
 export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department> => {
     try {
@@ -183,11 +183,22 @@ export const acceptOrdenDeparmentSvc = async (
                 primaryStockToSave.amount -= item.amount;
                 await manager.save(primaryStockToSave);
                 deparmentStock.amount += item.amount;
+                const transaction = new Transaction();
+                const itemInstance = new Item();
+                itemInstance.id = item.id;
+                transaction.item = itemInstance;
+                transaction.inventory1 = primaryStockToSave.inventory;
+                transaction.inventory2 = deparmentStock.inventory;
+                transaction.amount = item.amount;
+                const bcTransaction = await createTransaction(senderId.toString(),'1',transaction.inventory1.id.toString(),transaction.inventory2.id.toString(),transaction.item.id.toString(),item.amount,'order transaction');
+                transaction.blockchainTx = bcTransaction.data.id;
+                transaction.sender.id = senderId;
                 const deparmentOrderToItem = order.OrderDepartmentToItem.find(orderDepartmentToItem => orderDepartmentToItem.item.id === item.id)
                 deparmentOrderToItem.acceptedAmount = item.amount;
                 await manager.save(deparmentOrderToItem);
                 await manager.save(deparmentStock);
                 await manager.save(newLotToStockList);
+                await manager.save(transaction);
             }
             order.status = 'aprobado';
             const sender = new User();
