@@ -55,11 +55,23 @@ export const updateOrderDepartment = async (id: any, dataToUpdate: any) => {
 export const findDepartmentsOrder = async (filter: any) => {
     try {
         const orderDepartmentRepository = getManager().getRepository(OrderDepartment);
-        const result = orderDepartmentRepository.query('SELECT count(o.*) as orders, d.* ' +
-                                                    'FROM order_department o, department d ' +
-                                                    'WHERE "departmentId" = d.id ' +
-                                                    'GROUP BY d.id ' +
-                                                    'ORDER BY orders ' + filter.order +';');
+        let result;
+        if (filter.startDate && filter.endDate) {
+            console.log(filter.startDate);
+            result = orderDepartmentRepository.query('SELECT count(o.*) as orders, d.* ' +
+                'FROM order_department o, department d ' +
+                'WHERE "departmentId" = d.id ' +
+                'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+                'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+                'GROUP BY d.id ' +
+                'ORDER BY orders ' + filter.order +';');
+        } else {
+            result = orderDepartmentRepository.query('SELECT count(o.*) as orders, d.* ' +
+                'FROM order_department o, department d ' +
+                'WHERE "departmentId" = d.id ' +
+                'GROUP BY d.id ' +
+                'ORDER BY orders ' + filter.order +';');
+        }
         return result;
     } catch (error) {
         throw new ErrorHandler(500, `${error.name} ${error.message}`);

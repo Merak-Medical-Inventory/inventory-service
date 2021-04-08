@@ -25,5 +25,7 @@ export const updateOrderDepartmentSchema = Joi.object().keys({
 });
 
 export const findDepartmentsOrderSchema = Joi.object().keys({
-    order: Joi.string().required()
+    order: Joi.string().required(),
+    startDate: Joi.date(),
+    endDate: Joi.date()
 });
