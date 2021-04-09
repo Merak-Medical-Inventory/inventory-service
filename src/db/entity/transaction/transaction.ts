@@ -20,7 +20,7 @@ export class Transaction {
     @ManyToOne(type => Inventory,{nullable : true})
     inventory1!: Inventory;
 
-    @ManyToOne(type => Inventory)
+    @ManyToOne(type => Inventory,{nullable : true})
     inventory2!: Inventory;
 
     @ManyToOne(type => Item)
