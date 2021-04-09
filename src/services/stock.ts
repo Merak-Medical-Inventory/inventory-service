@@ -3,6 +3,8 @@ import logger from "@shared/Logger";
 import {getManager} from "typeorm";
 import Stock from "@entity/Stock/Stock";
 import LotToStock from "@entity/LotToStock/LotToStock";
+import Transaction from '@db/entity/transaction/transaction';
+import { createTransaction } from '@helpers/transaction';
 
 export const updateStockSvc = async (id: any, dataToUpdate: any = {}) => {
     try {
@@ -40,6 +42,13 @@ export const outputItemStockSvc = async (id: number, amountOutput: number) => {
             const primaryStockToSave = deparmentStockResult[0];
             primaryStockToSave.amount -= amountOutput;
             console.log(primaryStockToSave);
+            const transaction = new Transaction();
+            transaction.item = deparmentStock.item;
+            transaction.inventory1 = deparmentStock.inventory;
+            transaction.amount = amountOutput;
+            const bcTransaction = await createTransaction('','',transaction.inventory1.id.toString(),'',transaction.item.id.toString(),transaction.amount,'out');
+            transaction.blockchainTx = bcTransaction.data.id;
+            await manager.save(transaction);
             return await manager.save(primaryStockToSave);
         });
     } catch (e) {
