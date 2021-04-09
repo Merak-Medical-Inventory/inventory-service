@@ -17,7 +17,7 @@ export const createTransaction = async (
   inventory1: string,
   inventory2: string,
   item: string,
-  amount: string,
+  amount: number,
   type: string
 ) => {
   try {

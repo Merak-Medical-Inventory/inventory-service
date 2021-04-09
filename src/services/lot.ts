@@ -10,6 +10,8 @@ import { findInventorySvc } from './inventory';
 import { principalInventoryId } from '@shared/consts';
 import Stock from '@db/entity/Stock/Stock';
 import LotToStock from '@db/entity/LotToStock/LotToStock';
+import Transaction from '@db/entity/transaction/transaction';
+import { createTransaction } from '@helpers/transaction';
 
 export const findLotSvc = async (criteria: any) => {
   try {
@@ -68,7 +70,14 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
         lotToStock.lot = lot;
         lotToStock.amount = lot.amount;
         lotToStock.stock = stock;
+        const transaction = new Transaction();
+        transaction.amount = lot.amount;
+        transaction.item = savedItem;
+        transaction.inventory2 = inventory;
         await manager.save(lotToStock);
+        const bcTransaction = await createTransaction('','','',inventory.id.toString(),transaction.item.id.toString(),transaction.amount,'order');
+        transaction.blockchainTx = bcTransaction.data.id;
+        await manager.save(transaction);
       }
       return await findAllLotsSvc({order : order.id});
     });
