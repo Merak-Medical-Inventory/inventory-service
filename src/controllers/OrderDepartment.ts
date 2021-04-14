@@ -9,7 +9,7 @@ import {
     findOrderByDeparmentIdSvc,
     acceptOrdenDeparmentSvc,
     getActualStockForOrderSvc,
-    findDepartmentsOrderSvc
+    findDepartmentsOrderSvc, findItemsDepartmentOrderSvc
 } from '@services/orderDepartment';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
@@ -125,6 +125,27 @@ export const findDepartmentsOrderCtrl = async (
         );
     } catch (e) {
         logger.error("ERROR: controller -> findDepartmentsOrderCtrl", e);
+        next(e);
+    }
+};
+
+export const findItemsDepartmentOrderCtrl = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const filter = req.body;
+    try {
+        const data = await findItemsDepartmentOrderSvc(filter);
+        handleSuccess(
+            201,
+            "Insumos",
+            res,
+            next,
+            data
+        );
+    } catch (e) {
+        logger.error("ERROR: controller -> findItemsDepartmentOrderCtrl", e);
         next(e);
     }
 };

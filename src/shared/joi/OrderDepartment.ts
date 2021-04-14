@@ -29,3 +29,10 @@ export const findDepartmentsOrderSchema = Joi.object().keys({
     startDate: Joi.date(),
     endDate: Joi.date()
 });
+
+export const findItemsDepartmentsOrderSchema = Joi.object().keys({
+    order: Joi.string().required(),
+    startDate: Joi.date(),
+    endDate: Joi.date(),
+    department: Joi.number()
+});

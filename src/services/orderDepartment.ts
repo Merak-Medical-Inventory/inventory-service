@@ -4,7 +4,7 @@ import {
     findOrderDepartment,
     findAllOrderDepartments,
     updateOrderDepartment,
-    findDepartmentsOrder
+    findDepartmentsOrder, findItemsDepartmentOrder
 } from '@db/entity/OrderDepartment/OrderDepartmentDao';
 import Item from '@db/entity/Item/Item';
 import { getManager } from 'typeorm';
@@ -228,6 +228,15 @@ export const findDepartmentsOrderSvc = async (filter: any) => {
         return await findDepartmentsOrder(filter);
     } catch (e) {
         logger.error('TCL: findDepartmentsOrderSvc -> e', e);
+        throw e;
+    }
+};
+
+export const findItemsDepartmentOrderSvc = async (filter: any) => {
+    try {
+        return await findItemsDepartmentOrder(filter);
+    } catch (e) {
+        logger.error('TCL: findItemsDepartmentOrderSvc -> e', e);
         throw e;
     }
 };

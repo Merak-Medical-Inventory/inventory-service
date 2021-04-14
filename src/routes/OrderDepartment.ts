@@ -5,7 +5,7 @@ import {
     createOrderDepartmentSchema,
     updateOrderDepartmentSchema,
     acceptOrderDepartmentSchema,
-    findDepartmentsOrderSchema
+    findDepartmentsOrderSchema, findItemsDepartmentsOrderSchema
 } from '@shared/joi/OrderDepartment';
 import {
     createOrderDepartmentCtrl,
@@ -15,7 +15,7 @@ import {
     getOrdersByDeparmentIdCtrl,
     acceptOrdenDeparmentCtrl,
     getActualStockForOrderByCtrl,
-    findDepartmentsOrderCtrl
+    findDepartmentsOrderCtrl, findItemsDepartmentOrderCtrl
 } from '@controllers/OrderDepartment';
 
 const router = Router();
@@ -28,5 +28,6 @@ router.post('/department/:id/accept',[sessionCheck, joiValidator(acceptOrderDepa
 router.post('/',[sessionCheck,joiValidator(createOrderDepartmentSchema)],createOrderDepartmentCtrl);
 router.put('/:id',[sessionCheck,joiValidator(updateOrderDepartmentSchema)],updateOrderDepartmentCtrl);
 router.post('/departmentStats', [sessionCheck,joiValidator(findDepartmentsOrderSchema)],findDepartmentsOrderCtrl);
+router.post('/itemStats', [sessionCheck,joiValidator(findItemsDepartmentsOrderSchema)],findItemsDepartmentOrderCtrl);
 
 export default router;
