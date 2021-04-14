@@ -76,7 +76,8 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
         transaction.inventory2 = inventory;
         await manager.save(lotToStock);
         const bcTransaction = await createTransaction('','','',inventory.id.toString(),transaction.item.id.toString(),transaction.amount,'order');
-        transaction.blockchainTx = bcTransaction.data.id;
+        transaction.bcTransactionId = bcTransaction.data.id;
+        transaction.blockchainTx = bcTransaction.data.transactionHash;
         await manager.save(transaction);
       }
       return await findAllLotsSvc({order : order.id});
