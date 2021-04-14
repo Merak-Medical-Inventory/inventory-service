@@ -47,7 +47,8 @@ export const outputItemStockSvc = async (id: number, amountOutput: number) => {
             transaction.inventory1 = deparmentStock.inventory;
             transaction.amount = amountOutput;
             const bcTransaction = await createTransaction('','',transaction.inventory1.id.toString(),'',transaction.item.id.toString(),transaction.amount,'out');
-            transaction.blockchainTx = bcTransaction.data.id;
+            transaction.bcTransactionId = bcTransaction.data.id;
+            transaction.blockchainTx = bcTransaction.data.transactionHash;
             await manager.save(transaction);
             return await manager.save(primaryStockToSave);
         });

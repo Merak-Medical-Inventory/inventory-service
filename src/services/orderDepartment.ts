@@ -191,7 +191,8 @@ export const acceptOrdenDeparmentSvc = async (
                 transaction.inventory2 = deparmentStock.inventory;
                 transaction.amount = item.amount;
                 const bcTransaction = await createTransaction(senderId.toString(),'',transaction.inventory1.id.toString(),transaction.inventory2.id.toString(),transaction.item.id.toString(),item.amount,'orderDeparment');
-                transaction.blockchainTx = bcTransaction.data.id;
+                transaction.bcTransactionId = bcTransaction.data.id;
+                transaction.blockchainTx = bcTransaction.data.transactionHash;
                 transaction.sender.id = senderId;
                 const deparmentOrderToItem = order.OrderDepartmentToItem.find(orderDepartmentToItem => orderDepartmentToItem.item.id === item.id)
                 deparmentOrderToItem.acceptedAmount = item.amount;

@@ -12,6 +12,9 @@ export class Transaction {
     blockchainTx: string;
 
     @Column()
+    bcTransactionId: string;
+
+    @Column()
     amount: number;
     
     @Column({nullable : true})
