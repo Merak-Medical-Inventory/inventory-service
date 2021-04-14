@@ -17,7 +17,7 @@ export class Transaction {
     @Column()
     amount: number;
     
-    @Column({nullable : true})
+    @ManyToOne(type => User,{ nullable : true })
     sender: User;
     
     @ManyToOne(type => Inventory,{nullable : true})
