@@ -15,6 +15,7 @@ import Stock from '@db/entity/Stock/Stock';
 import Transaction from '@db/entity/transaction/transaction';
 import LotToStock from '@db/entity/LotToStock/LotToStock';
 import { createTransaction } from '@helpers/transaction';
+import { userInfo } from 'os';
 
 export const findOrderByDeparmentIdSvc = async ( id : any) : Promise<Department> => {
     try {
@@ -128,7 +129,7 @@ export const acceptOrdenDeparmentSvc = async (
             //
             for await (const item of items){
                 const primaryStock = await manager.find(Stock,{
-                    relations : ["LotToStock", "LotToStock.lot"],
+                    relations : ["LotToStock","inventory", "LotToStock.lot"],
                     where : {
                         inventory : 1,
                         item : item.id
@@ -136,7 +137,7 @@ export const acceptOrdenDeparmentSvc = async (
                 });
                 if(primaryStock.length === 0) continue;
                 const deparmentStockResult = await manager.find(Stock,{
-                    relations : ["LotToStock", "LotToStock.lot"],
+                    relations : ["LotToStock","inventory", "LotToStock.lot"],
                     where : {
                         inventory : order.department.inventory[0].id,
                         item : item.id
@@ -193,7 +194,9 @@ export const acceptOrdenDeparmentSvc = async (
                 const bcTransaction = await createTransaction(senderId.toString(),'',transaction.inventory1.id.toString(),transaction.inventory2.id.toString(),transaction.item.id.toString(),item.amount,'orderDeparment');
                 transaction.bcTransactionId = bcTransaction.data.id;
                 transaction.blockchainTx = bcTransaction.data.transactionHash;
-                transaction.sender.id = senderId;
+                const sender = new User();
+                sender.id = senderId;
+                transaction.sender = sender;
                 const deparmentOrderToItem = order.OrderDepartmentToItem.find(orderDepartmentToItem => orderDepartmentToItem.item.id === item.id)
                 deparmentOrderToItem.acceptedAmount = item.amount;
                 await manager.save(deparmentOrderToItem);
