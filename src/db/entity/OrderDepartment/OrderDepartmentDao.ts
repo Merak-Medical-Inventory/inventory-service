@@ -128,7 +128,6 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'ORDER BY orders ' + filter.order +';');
             }
         }
-        console.log(result);
         result = await Promise.all(await result.map((async (x: any) => {
             const element: any = {
                 orders: x.orders,

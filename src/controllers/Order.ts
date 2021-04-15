@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
 import { handleSuccess } from "@helpers/succesHandler";
-import { createOrderSvc, findOrderSvc, findAllOrdersSvc, updateOrderSvc } from '@services/order';
+import {createOrderSvc, findOrderSvc, findAllOrdersSvc, updateOrderSvc, findItemsOrderStatsSvc} from '@services/order';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import logger from '@shared/Logger';
+import {findItemsDepartmentOrderSvc} from "@services/orderDepartment";
 
 export const getOrderByIdCtrl = async (req : Request , res : Response , next: NextFunction) => {
   const {id} = req.params;
@@ -59,5 +60,26 @@ export const updateOrderCtrl = async (
     logger.error("ERROR: controller -> updateUserCtrl", e);
     next(e);
   }
+};
+
+export const findItemsOrderStatsCtrl = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const filter = req.body;
+    try {
+        const data = await findItemsOrderStatsSvc(filter);
+        handleSuccess(
+            201,
+            "Insumos",
+            res,
+            next,
+            data
+        );
+    } catch (e) {
+        logger.error("ERROR: controller -> findItemsOrderStatsCtrl", e);
+        next(e);
+    }
 };
 

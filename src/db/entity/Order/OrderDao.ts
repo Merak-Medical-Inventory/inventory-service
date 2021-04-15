@@ -1,6 +1,8 @@
 import { getManager } from "typeorm";
 import Order from "./Order";
 import { ErrorHandler } from "@helpers/ErrorHandler";
+import OrderDepartment from "@entity/OrderDepartment/OrderDepartment";
+import {findItem} from "@entity/Item/ItemDao";
 
 export const findOrder = async (criteria: any) => {
   try {
@@ -45,6 +47,43 @@ export const updateOrder = async (id: any, dataToUpdate: any) => {
     const update = await orderRepository.update(id, { ...dataToUpdate });
     if ((update.affected = 0)) throw new ErrorHandler(404, "Order not found");
     return await orderRepository.findOne({ id });
+  } catch (error) {
+    throw new ErrorHandler(500, `${error.name} ${error.message}`);
+  }
+};
+
+export const findItemsOrderStats = async (filter: any) => {
+  try {
+    const orderRepository = getManager().getRepository(Order);
+    let result;
+    if (filter.startDate && filter.endDate) {
+      result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+          'sum(ot.amount) as total, i.id as item ' +
+          'FROM order od, order_to_item ot, item i ' +
+          'WHERE ot."orderId" = od.id ' +
+          'AND ot."itemId" = i.id ' +
+          'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+          'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+          'GROUP BY i.id ' +
+          'ORDER BY orders ' + filter.order +';');
+    } else {
+      result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+          'sum(ot.amount) as total, i.id as item ' +
+          'FROM order od, order_to_item ot, item i ' +
+          'WHERE ot."orderId" = od.id ' +
+          'AND ot."itemId" = i.id ' +
+          'GROUP BY i.id ' +
+          'ORDER BY orders ' + filter.order +';');
+    }
+    result = await Promise.all(await result.map((async (x: any) => {
+      const element: any = {
+        orders: x.orders,
+        total: x.total,
+        item: await findItem({id:x.item})
+      };
+      return element;
+    })));
+    return result;
   } catch (error) {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);
   }

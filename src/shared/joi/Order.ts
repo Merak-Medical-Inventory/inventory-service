@@ -7,8 +7,14 @@ export const createOrderSchema = Joi.object().keys({
         id : Joi.number().required(),
         amount : Joi.number().required()
     }))
-})
+});
 
 export const updateOrderSchema = Joi.object().keys({
     status : Joi.string()
-})
+});
+
+export const findItemsOrderStatsSchema = Joi.object().keys({
+    order: Joi.string().required(),
+    startDate: Joi.date(),
+    endDate: Joi.date()
+});
