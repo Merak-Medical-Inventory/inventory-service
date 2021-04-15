@@ -2,6 +2,7 @@ import { getManager } from 'typeorm';
 import { ErrorHandler } from '@helpers/ErrorHandler';
 import OrderDepartment from './OrderDepartment';
 import {findItem} from '@entity/Item/ItemDao';
+import Item from "@entity/Item/Item";
 
 export const findOrderDepartment = async (criteria: any) => {
     try {
@@ -109,7 +110,8 @@ export const findItemsDepartmentOrder = async (filter: any) => {
             }
         } else {
             if (filter.department) {
-                result = await orderDepartmentRepository.query('SELECT count(ot.*) as orders, i.id as item ' +
+                result = await orderDepartmentRepository.query('SELECT count(ot.*) as orders, ' +
+                    'sum(ot.amount) as total, i.id as item ' +
                     'FROM order_department od, order_department_to_item ot, item i ' +
                     'WHERE ot."orderDepartmentId" = od.id ' +
                     'AND ot."itemId" = i.id ' +
@@ -117,7 +119,8 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'GROUP BY i.id ' +
                     'ORDER BY orders ' + filter.order +';');
             } else {
-                result = await orderDepartmentRepository.query('SELECT count(ot.*) as orders, i.id as item ' +
+                result = await orderDepartmentRepository.query('SELECT count(ot.*) as orders, ' +
+                    'sum(ot.amount) as total, i.id as item ' +
                     'FROM order_department od, order_department_to_item ot, item i ' +
                     'WHERE ot."orderDepartmentId" = od.id ' +
                     'AND ot."itemId" = i.id ' +
@@ -125,9 +128,14 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'ORDER BY orders ' + filter.order +';');
             }
         }
-        result.item = result.map((x: { item: any; }) => {
-            return findItem(x.item);
-        });
+        result = await Promise.all(await result.map((async (x: any) => {
+            const element: any = {
+                orders: x.orders,
+                total: x.total,
+                item: await findItem({id:x.item})
+            };
+            return element;
+        })));
         return result;
     } catch (error) {
         throw new ErrorHandler(500, `${error.name} ${error.message}`);

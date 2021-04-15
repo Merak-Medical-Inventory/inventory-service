@@ -1,10 +1,11 @@
 import logger from "@shared/Logger";
 import Order from "@db/entity/Order/Order";
-import {findOrder, findAllOrders, updateOrder } from "@db/entity/Order/OrderDao";
+import {findOrder, findAllOrders, updateOrder, findItemsOrderStats} from "@db/entity/Order/OrderDao";
 import Provider from "@db/entity/Provider/Provider";
 import Item from "@db/entity/Item/Item";
 import OrderToItem from "@db/entity/OrderToItem/OrderToItem";
 import { getManager } from "typeorm";
+import {findItemsDepartmentOrder} from "@entity/OrderDepartment/OrderDepartmentDao";
 
 export const findOrderSvc = async (criteria: any) => {
   try {
@@ -63,4 +64,13 @@ export const updateOrderSvc = async (id: any, dataToUpdate: any = {}) => {
       logger.error("TCL: updateOrderSvc -> e", e);
       throw e;
     }
-  };
+};
+
+export const findItemsOrderStatsSvc = async (filter: any) => {
+  try {
+    return await findItemsOrderStats(filter);
+  } catch (e) {
+    logger.error('TCL: findItemsOrderStatsSvc -> e', e);
+    throw e;
+  }
+};
