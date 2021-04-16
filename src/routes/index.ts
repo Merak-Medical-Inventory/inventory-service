@@ -10,6 +10,7 @@ import LotRouter from './Lot';
 import InventoryRouter from './Inventory';
 import StockRouter from './Stock'
 import OrdenDepartmentRouter from './OrderDepartment'
+import TransactionRouter from './Transaction';
 
 // Init router and path
 const router = Router();
@@ -26,5 +27,6 @@ router.use('/lot',LotRouter);
 router.use('/inventory',InventoryRouter);
 router.use('/stock',StockRouter);
 router.use('/orderDepartment',OrdenDepartmentRouter);
+router.use('/transaction',TransactionRouter);
 // Export the base-router
 export default router;

@@ -192,6 +192,7 @@ export const acceptOrdenDeparmentSvc = async (
                 transaction.inventory2 = deparmentStock.inventory;
                 transaction.amount = item.amount;
                 const bcTransaction = await createTransaction(senderId.toString(),'',transaction.inventory1.id.toString(),transaction.inventory2.id.toString(),transaction.item.id.toString(),item.amount,'orderDeparment');
+                transaction.date = new Date();
                 transaction.bcTransactionId = bcTransaction.data.id;
                 transaction.blockchainTx = bcTransaction.data.transactionHash;
                 const sender = new User();

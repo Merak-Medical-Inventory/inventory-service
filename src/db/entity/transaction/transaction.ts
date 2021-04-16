@@ -11,6 +11,9 @@ export class Transaction {
     @Column()
     blockchainTx: string;
 
+    @Column({nullable : true})
+    date: Date;
+
     @Column()
     bcTransactionId: string;
 
