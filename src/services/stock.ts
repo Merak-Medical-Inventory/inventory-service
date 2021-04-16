@@ -19,7 +19,7 @@ export const outputItemStockSvc = async (id: number, amountOutput: number) => {
     try {
         return await getManager().transaction(async (manager) => {
             const deparmentStockResult = await manager.find(Stock,{
-                relations : ["LotToStock", "LotToStock.lot"],
+                relations : ["LotToStock","item","inventory", "LotToStock.lot"],
                 where : {
                     id
                 }
@@ -47,8 +47,10 @@ export const outputItemStockSvc = async (id: number, amountOutput: number) => {
             transaction.inventory1 = deparmentStock.inventory;
             transaction.amount = amountOutput;
             const bcTransaction = await createTransaction('','',transaction.inventory1.id.toString(),'',transaction.item.id.toString(),transaction.amount,'out');
+            transaction.date = new Date();
             transaction.bcTransactionId = bcTransaction.data.id;
             transaction.blockchainTx = bcTransaction.data.transactionHash;
+            console.log(transaction)
             await manager.save(transaction);
             return await manager.save(primaryStockToSave);
         });

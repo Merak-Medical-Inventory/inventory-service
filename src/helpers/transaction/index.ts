@@ -36,7 +36,7 @@ export const createTransaction = async (
   }
 };
 
-export const getTransaction = async (id: string) => {
+export const getBcTransactionSvc = async (id: string) => {
   try {
     const response = await blockchainInstance.get(`/api/transaction/${id}`);
     return response.data;
