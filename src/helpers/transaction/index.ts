@@ -1,4 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import {findItemSvc} from "@services/item";
+import {findInventorySvc} from "@services/inventory";
 
 const blockchainAxiosConfig: AxiosRequestConfig = {
   baseURL: process.env.BLOCKCHAIN_HOST,
@@ -39,6 +41,9 @@ export const createTransaction = async (
 export const getBcTransactionSvc = async (id: string) => {
   try {
     const response = await blockchainInstance.get(`/api/transaction/${id}`);
+    response.data.item = findItemSvc({id:response.data.item});
+    response.data.inventory1 = findInventorySvc({id:response.data.inventory1});
+    response.data.inventory2 = findInventorySvc({id:response.data.inventory2});
     return response.data;
   } catch (e) {
     throw e;
