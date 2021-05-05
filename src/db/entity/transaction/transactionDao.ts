@@ -6,7 +6,8 @@ export const findAllTransactions = async () => {
   try {
     const transactionRepository = getManager().getRepository(Transaction);
     return await transactionRepository.find({
-      relations: ['sender', 'inventory1','inventory2','item'],
+      relations: ['sender', 'inventory1','inventory2','item', 'item.generalItem', 'item.category', 'item.brand',
+        'item.presentation'],
       order : {
         date : 'DESC'
       }
@@ -16,12 +17,18 @@ export const findAllTransactions = async () => {
   }
 };
 
-export const findTransaction = async (criteria: any) => {
+export const findInventoryTransactions = async (inventoryId: number) => {
   try {
     const transactionRepository = getManager().getRepository(Transaction);
-    return await transactionRepository.findOne({
-      relations: ['sender', 'inventory1','inventory2','item'],
-      where: criteria
+    return await transactionRepository.find({
+      relations: ['sender', 'inventory1','inventory2','item', 'item.generalItem', 'item.category', 'item.brand',
+        'item.presentation'],
+      where: [{
+          inventory1: inventoryId
+        },
+        {
+          inventory2: inventoryId
+        }]
   })
   } catch (error) {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);

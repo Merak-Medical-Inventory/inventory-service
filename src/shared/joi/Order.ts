@@ -16,5 +16,6 @@ export const updateOrderSchema = Joi.object().keys({
 export const findItemsOrderStatsSchema = Joi.object().keys({
     order: Joi.string().required(),
     startDate: Joi.date(),
-    endDate: Joi.date()
+    endDate: Joi.date(),
+    category: Joi.number()
 });

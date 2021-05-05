@@ -1,7 +1,6 @@
 import { getManager } from "typeorm";
 import Order from "./Order";
 import { ErrorHandler } from "@helpers/ErrorHandler";
-import OrderDepartment from "@entity/OrderDepartment/OrderDepartment";
 import {findItem} from "@entity/Item/ItemDao";
 
 export const findOrder = async (criteria: any) => {
@@ -57,23 +56,47 @@ export const findItemsOrderStats = async (filter: any) => {
     const orderRepository = getManager().getRepository(Order);
     let result;
     if (filter.startDate && filter.endDate) {
-      result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
-          'sum(ot.amount) as total, i.id as item ' +
-          'FROM order od, order_to_item ot, item i ' +
-          'WHERE ot."orderId" = od.id ' +
-          'AND ot."itemId" = i.id ' +
-          'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
-          'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
-          'GROUP BY i.id ' +
-          'ORDER BY orders ' + filter.order +';');
+      if (filter.category) {
+        result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+            'sum(ot.amount) as total, i.id as item ' +
+            'FROM public.order od, order_to_item ot, item i ' +
+            'WHERE ot."orderId" = od.id ' +
+            'AND ot."itemId" = i.id ' +
+            'AND i."categoryId" = ' + filter.category + ' ' +
+            'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+            'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+            'GROUP BY i.id ' +
+            'ORDER BY orders ' + filter.order + ';');
+      } else {
+        result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+            'sum(ot.amount) as total, i.id as item ' +
+            'FROM public.order od, order_to_item ot, item i ' +
+            'WHERE ot."orderId" = od.id ' +
+            'AND ot."itemId" = i.id ' +
+            'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+            'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+            'GROUP BY i.id ' +
+            'ORDER BY orders ' + filter.order + ';');
+      }
     } else {
-      result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
-          'sum(ot.amount) as total, i.id as item ' +
-          'FROM order od, order_to_item ot, item i ' +
-          'WHERE ot."orderId" = od.id ' +
-          'AND ot."itemId" = i.id ' +
-          'GROUP BY i.id ' +
-          'ORDER BY orders ' + filter.order +';');
+      if (filter.category) {
+          result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+              'sum(ot.amount) as total, i.id as item ' +
+              'FROM public.order od, order_to_item ot, item i ' +
+              'WHERE ot."orderId" = od.id ' +
+              'AND ot."itemId" = i.id ' +
+              'AND i."categoryId" = ' + filter.category + ' ' +
+              'GROUP BY i.id ' +
+              'ORDER BY orders ' + filter.order +';');
+      } else {
+        result = await orderRepository.query('SELECT count(ot.*) as orders, ' +
+            'sum(ot.amount) as total, i.id as item ' +
+            'FROM public.order od, order_to_item ot, item i ' +
+            'WHERE ot."orderId" = od.id ' +
+            'AND ot."itemId" = i.id ' +
+            'GROUP BY i.id ' +
+            'ORDER BY orders ' + filter.order +';');
+      }
     }
     result = await Promise.all(await result.map((async (x: any) => {
       const element: any = {
