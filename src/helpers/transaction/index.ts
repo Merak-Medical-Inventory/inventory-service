@@ -18,7 +18,7 @@ export const createTransaction = async (
   inventory2: string,
   item: string,
   amount: number,
-  type: string
+  date : string
 ) => {
   try {
     const response = await blockchainInstance.post("/api/transaction", {
@@ -28,7 +28,7 @@ export const createTransaction = async (
       inventory2,
       item,
       amount,
-      type,
+      date
     });
     return response.data;
   } catch (e) {
