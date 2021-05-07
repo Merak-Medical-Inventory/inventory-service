@@ -27,6 +27,17 @@ export const findUser = async (criteria: any) => {
   }
 };
 
+export const findBasicUser = async (criteria: any) => {
+  try {
+    const userRepository = getManager().getRepository(User);
+    return await userRepository.findOne({
+      where: criteria
+    })
+  } catch (error) {
+    throw new ErrorHandler(500, `${error.name} ${error.message}`);
+  }
+};
+
 export const createUser = async (user: any) => {
   try {
     const userRepository = getManager().getRepository(User);
