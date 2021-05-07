@@ -25,3 +25,14 @@ export const findAllInventories = async () => {
     throw new ErrorHandler(500, `${error.name} ${error.message}`);
   }
 };
+
+export const findBasicInventory = async (criteria: any) => {
+  try {
+    const inventoryRepository = getManager().getRepository(Inventory);
+    return await inventoryRepository.findOne({
+      where: criteria,
+    });
+  } catch (error) {
+    throw new ErrorHandler(500, `${error.name} ${error.message}`);
+  }
+};
