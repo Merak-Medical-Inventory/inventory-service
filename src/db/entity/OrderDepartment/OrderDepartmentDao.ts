@@ -92,9 +92,9 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'FROM order_department od, order_department_to_item ot, item i ' +
                     'WHERE ot."orderDepartmentId" = od.id ' +
                     'AND ot."itemId" = i.id ' +
-                    'AND od.id =  ' + filter.department + ' ' +
-                    'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
-                    'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+                    'AND od."departmentId" =  ' + filter.department + ' ' +
+                    'AND od.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+                    'AND od.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
                     'GROUP BY i.id ' +
                     'ORDER BY orders ' + filter.order +';');
             } else {
@@ -103,8 +103,8 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'FROM order_department od, order_department_to_item ot, item i ' +
                     'WHERE ot."orderDepartmentId" = od.id ' +
                     'AND ot."itemId" = i.id ' +
-                    'AND o.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
-                    'AND o.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
+                    'AND od.date >= timestamp \'' + filter.startDate + ' 00:00:00 \'' +
+                    'AND od.date <= timestamp \'' + filter.endDate + ' 00:00:00 \'' +
                     'GROUP BY i.id ' +
                     'ORDER BY orders ' + filter.order +';');
             }
@@ -115,7 +115,7 @@ export const findItemsDepartmentOrder = async (filter: any) => {
                     'FROM order_department od, order_department_to_item ot, item i ' +
                     'WHERE ot."orderDepartmentId" = od.id ' +
                     'AND ot."itemId" = i.id ' +
-                    'AND od.id =  ' + filter.department + ' ' +
+                    'AND od."departmentId" =  ' + filter.department + ' ' +
                     'GROUP BY i.id ' +
                     'ORDER BY orders ' + filter.order +';');
             } else {
