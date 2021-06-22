@@ -12,6 +12,7 @@ import Stock from '@db/entity/Stock/Stock';
 import LotToStock from '@db/entity/LotToStock/LotToStock';
 import Transaction from '@db/entity/transaction/transaction';
 import { createTransaction } from '@helpers/transaction';
+import User from '@db/entity/user/User';
 
 export const findLotSvc = async (criteria: any) => {
   try {
@@ -72,6 +73,8 @@ export const createLotsSvc = async (lots: { orderId: number , items : any }) => 
         lotToStock.stock = stock;
         const transaction = new Transaction();
         transaction.amount = lot.amount;
+        transaction.sender = new User()
+        transaction.sender.id = parseInt(<string>process.env.USER_ID);
         transaction.item = savedItem;
         transaction.inventory2 = inventory;
         await manager.save(lotToStock);

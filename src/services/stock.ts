@@ -5,6 +5,7 @@ import Stock from "@entity/Stock/Stock";
 import LotToStock from "@entity/LotToStock/LotToStock";
 import Transaction from '@db/entity/transaction/transaction';
 import { createTransaction } from '@helpers/transaction';
+import User from '@db/entity/user/User';
 
 export const updateStockSvc = async (id: any, dataToUpdate: any = {}) => {
     try {
@@ -47,6 +48,9 @@ export const outputItemStockSvc = async (id: number, amountOutput: number) => {
             transaction.inventory1 = deparmentStock.inventory;
             transaction.amount = amountOutput;
             transaction.date = new Date();
+            const sender = new User();
+            sender.id = parseInt(<string>process.env.USER_ID);
+            transaction.sender = sender;
             const bcTransaction = await createTransaction(process.env.USER_ID || '','',transaction.inventory1.id.toString(),'',transaction.item.id.toString(),transaction.amount,transaction.date.toUTCString());
             transaction.bcTransactionId = bcTransaction.data.id;
             transaction.blockchainTx = bcTransaction.data.transactionHash;
