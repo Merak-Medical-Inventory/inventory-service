@@ -26,7 +26,6 @@ export const sessionCheck = async (req: IRequest, _res: Response, next: NextFunc
   let response
   try {
     response = await authInstance.get('/api/auth/check')
-    console.log('sessionCheck -> response', response.data)
     process.env.USER_ID = get(response, 'data.data.id', 0)
     process.env.USER_USERNAME = get(response, 'data.data.username', 0)
     process.env.USER_NAME = get(response, 'data.data.name', 0)

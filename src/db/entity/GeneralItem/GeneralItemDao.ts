@@ -5,8 +5,8 @@ import { ErrorHandler } from "@helpers/ErrorHandler";
 export const createGeneralItem = async (generalItem: any) => {
     try {
         const generalItemRepository = getManager().getRepository(GeneralItem);
-        await generalItemRepository.save(generalItem);
-        return GeneralItem;
+        const response = await generalItemRepository.save(generalItem);
+        return response;
     } catch (error) {
         throw new ErrorHandler(500, `${error.name} ${error.message}`);
     }
