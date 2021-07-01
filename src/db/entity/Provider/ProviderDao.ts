@@ -43,6 +43,7 @@ export const updateProvider = async (id: any, dataToUpdate: any) => {
         providerUpdate.name = dataToUpdate.name;
         providerUpdate.last_name = dataToUpdate.last_name;
         providerUpdate.email = dataToUpdate.email;
+        providerUpdate.description = dataToUpdate.description;
         providerUpdate.company = dataToUpdate.company;
         providerUpdate.country = dataToUpdate.country;
         providerUpdate.city = dataToUpdate.city;

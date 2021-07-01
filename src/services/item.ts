@@ -9,7 +9,6 @@ import {findGeneralItem} from "@entity/GeneralItem/GeneralItemDao";
 
 export const createItemSvc = async (item: any) => {
   try {
-    console.log(item)
     const generalItem= await findGeneralItem({id : item.generalItem});
     if (!generalItem) throw new ErrorHandler(404, "Insumo General no encontrado");
     const brand = await findBrand({id : item.brand});

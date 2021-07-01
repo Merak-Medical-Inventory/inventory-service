@@ -3,6 +3,7 @@ import supertest, { SuperTest } from 'supertest';
 import Connection from '../src/connection';
 import {typeOrmConfig} from '../src/config';
 import app from '../src/server';
+import { number } from '@hapi/joi';
 
 const inventoryService : SuperTest<supertest.Test> = supertest(app)
 const authService : SuperTest<supertest.Test> = supertest('http://localhost:3001/api');
@@ -17,6 +18,14 @@ let brandId : number;
 let presentationId : number;
 let itemId : number;
 let providerId : number;
+
+const orderValidationObject = {
+    id : expect.any(Number),
+    status : expect.any(String),
+    date : expect.any(String),
+    provider : expect.anything(),
+    orderToItem : expect.arrayContaining([expect.anything()])
+}
 
 
 beforeAll(async ()=>{
@@ -101,7 +110,7 @@ afterAll(async () => {
     await connection.close()
 })
 
-describe('Order',()=>{
+describe('Create order',()=>{
 
     it('Should create an order', async ()=> {
         const response = await inventoryService.post('/api/order')
@@ -116,6 +125,56 @@ describe('Order',()=>{
             })
 
         expect(response.body.statusCode).toBe(200)
+    })
+
+})
+
+describe('Get all orders',()=>{
+    let orderId : number;
+
+    beforeAll(async () =>{
+        const response = await inventoryService.post('/api/order')
+        .set('Authorization',`Bearer ${token}`)
+        .send({
+            user : userId,
+            provider : providerId,
+            items : [{
+                id : itemId,
+                amount : 20
+            }]
+        })
+        orderId = parseInt(response.body.data.id);
+    })
+
+    it('Should get all the orders', async ()=> {
+        const response = await inventoryService.get(`/api/order`)
+            .set('Authorization',`Bearer ${token}`)
+        expect(response.body.data).toEqual(expect.arrayContaining([orderValidationObject]))
+    })
+
+})
+
+describe('Get an order',()=>{
+    let orderId : number;
+
+    beforeAll(async () =>{
+        const response = await inventoryService.post('/api/order')
+        .set('Authorization',`Bearer ${token}`)
+        .send({
+            user : userId,
+            provider : providerId,
+            items : [{
+                id : itemId,
+                amount : 20
+            }]
+        })
+        orderId = parseInt(response.body.data.id);
+    })
+
+    it('Should get an order by id', async ()=> {
+        const response = await inventoryService.get(`/api/order/${orderId}`)
+            .set('Authorization',`Bearer ${token}`)
+        expect(response.body.data).toEqual(orderValidationObject)
     })
 
 })
@@ -144,7 +203,7 @@ describe('Approve an order',()=>{
             .send({
                 order : userId,
                 items : [{
-                    itemId,
+                    id: itemId,
                     dueDate : new Date().toISOString(),
                     amount : 20
                 }]
@@ -155,50 +214,34 @@ describe('Approve an order',()=>{
 
 })
 
-describe('Create and approve order deparment',()=>{
+describe('Update an order',()=>{
+    let orderId : number; 
 
-    let token : string;
-    let userId : number;
-    let orderId : number;
-
-    beforeAll(async () => {
-        const response = await authService.post("/auth/login").send({
-            username: "medico",
-            password: "medico",
-          });
-          token = response.body.data.token;
-          userId = parseInt(response.body.data.response.id);
+    beforeAll(async () =>{
+        const response = await inventoryService.post('/api/order')
+        .set('Authorization',`Bearer ${token}`)
+        .send({
+            user : userId,
+            provider : providerId,
+            items : [{
+                id : itemId,
+                amount : 20
+            }]
+        })
+        orderId = parseInt(response.body.data.id);
     })
 
-    it('Should create an order from a deparment', async ()=> {
-        const response = await inventoryService.post('/api/orderDepartment')
+    it('Should update an order', async ()=> {
+        const response = await inventoryService.put(`/api/order/${orderId}`)
             .set('Authorization',`Bearer ${token}`)
             .send({
-                transmitter : userId,
-                items : [{
-                    id : itemId,
-                    amount : 20
-                }]
+                status : 'cancelado'
             })
-            orderId = response.body.data.id;
-
-        expect(response.body.statusCode).toBe(200)
+        const validationObject = {
+            id : expect.any(Number),
+            status : 'cancelado',
+            date : expect.any(String)
+        }
+        expect(response.body.data).toEqual(validationObject)
     })
-
-    it('Should approve an order from a deparment', async ()=> {
-        const response = await inventoryService.post(`/api/orderDepartment/department/${orderId}/accept`)
-            .set('Authorization',`Bearer ${token}`)
-            .send({
-                message : 'test order',
-                senderId : userId,
-                items : [{
-                    id : itemId,
-                    amount : 20
-                }]
-            })
-
-        expect(response.body.statusCode).toBe(200)
-    })
-
 })
-

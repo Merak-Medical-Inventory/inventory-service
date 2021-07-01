@@ -18,10 +18,10 @@ export const acceptOrderDepartmentSchema = Joi.object().keys({
 });
 
 export const updateOrderDepartmentSchema = Joi.object().keys({
-    response: Joi.string().required(),
-    sender: Joi.number().required(),
+    response: Joi.string(),
+    sender: Joi.number(),
     status : Joi.string().required(),
-    dateResponse : Joi.date().required()
+    dateResponse : Joi.date()
 });
 
 export const findDepartmentsOrderSchema = Joi.object().keys({

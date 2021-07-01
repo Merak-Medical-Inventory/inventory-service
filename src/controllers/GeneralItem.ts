@@ -50,13 +50,7 @@ export const updateGeneralItemCtrl = async ( req: IRequest, res: Response, next:
     const { id } = req.params;
     try {
         const data = await updateGeneralItemSvc(id, update);
-        handleSuccess(
-            201,
-            'Insumo General actualizado satisfactoriamente',
-            res,
-            next,
-            data
-        );
+        handleSuccess(201,'Insumo General actualizado satisfactoriamente',res,next,data);
     } catch (e) {
         logger.error('ERROR: controller -> updateGeneralItemCtrl', e);
         next(e);
@@ -67,13 +61,7 @@ export const deleteGeneralItemCtrl = async (req: IRequest, res: Response, next: 
     const { id } = req.params;
     try {
         const data = await deleteGeneralItemSvc(id);
-        handleSuccess(
-            201,
-            'Insumo General eliminado satisfactoriamente',
-            res,
-            next,
-            data
-        );
+        handleSuccess(201,'Insumo General eliminado satisfactoriamente',res,next,data);
     } catch (e) {
         logger.error('ERROR: controller -> deleteGeneralItemCtrl', e);
         next(e);

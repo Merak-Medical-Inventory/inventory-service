@@ -14,7 +14,6 @@ export const createProviderSvc = async (provider: any) => {
             if (!it) throw new ErrorHandler(404, "Item no encontrado");
         }
         provider.items = itemsSave;
-        console.log(provider);
         return await createProvider(provider);
     } catch (e) {
         logger.error("TCL: createProviderSvc -> e", e);
@@ -30,7 +29,6 @@ export const findAllProvidersSvc = async (criteria: any) => {
             for(const item of provider.items) {
                 const it = await findItem({id: item.id});
                 itemsGet.push(it);
-                console.log(it.id);
             }
             provider.items = itemsGet;
         }
